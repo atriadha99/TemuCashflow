@@ -1,16 +1,18 @@
+import com.android.build.api.dsl.ApplicationExtension
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.services)
 }
 
-android {
+extensions.configure<ApplicationExtension> {
     namespace = "com.andika.temucashflow"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.andika.temucashflow"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -22,8 +24,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildTypes {
@@ -54,9 +56,9 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.activity)
     
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.biometric:biometric:1.1.0")
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.cardview)
+    implementation(libs.androidx.biometric)
     
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -65,12 +67,12 @@ dependencies {
     implementation(libs.firebase.firestore)
     
     // Apache POI
-    implementation("org.apache.poi:poi-ooxml:5.2.3")
-    implementation("com.fasterxml.jackson.core:jackson-core:2.15.2")
+    implementation(libs.poi.ooxml)
+    implementation(libs.jackson.core)
     
     // Charts & Gson
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation(libs.mpandroidchart)
+    implementation(libs.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
