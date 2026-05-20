@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">TemuCashflow</string>
+    <string name="welcome_message">Temu tak sekedar tatap, tapi ada juga modal yang harus dicatat.</string>
+
+    <!-- Auth -->
+    <string name="login_title">Masuk</string>
+    <string name="register_title">Daftar Akun</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="name_hint">Nama Lengkap</string>
+    <string name="confirm_password_hint">Konfirmasi Password</string>
+
+    <!-- Dashboard -->
+    <string name="income_label">Pemasukan</string>
+    <string name="expense_label">Pengeluaran</string>
+    <string name="balance_label">Saldo</string>
+    <string name="recent_transactions">Transaksi Terbaru</string>
+    <string name="see_all">Lihat Semua</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Pengaturan &amp; Profil</string>
+    <string name="dark_mode">Mode Gelap</string>
+    <string name="biometric_lock">Kunci Biometrik</string>
+    <string name="edit_name">Ubah Nama Panggilan</string>
+    <string name="export_json">Export Data (JSON)</string>
+    <string name="import_json">Import Data (JSON)</string>
+    <string name="reset_data">Hapus Semua Transaksi</string>
+    <string name="logout">Keluar Akun</string>
+
+    <!-- Notifications -->
+    <string name="notif_title">Waktunya Mencatat!</string>
+    <string name="notif_desc">Sudahkah Anda mencatat pemasukan dan pengeluaran hari ini?</string>
+
+    <!-- Goals & Analytics -->
+    <string name="goal_name_hint">Nama Target (misal: Liburan)</string>
+    <string name="goal_target_hint">Target Dana (Rp)</string>
+    <string name="goal_update_instruction">Masukkan total dana yang sudah terkumpul:</string>
+    <string name="goal_current_amount_hint">Jumlah Terkumpul Sekarang</string>
+    <string name="add_goal_title">Tambah Target Tabungan</string>
+    <string name="update_goal_title_prefix">Update: %1$s</string>
+    <string name="delete_goal_title">Hapus Target</string>
+    <string name="delete_goal_confirm">Apakah Anda yakin ingin menghapus target \"%1$s\"?</string>
+    <string name="goal_added_success">Target ditambahkan</string>
+    <string name="progress_updated_success">Progres diperbarui</string>
+    <string name="empty_data_warning">Data tidak boleh kosong</string>
+    <string name="save_label">Simpan</string>
+    <string name="update_label">Update</string>
+    <string name="cancel_label">Batal</string>
+    <string name="delete_label">Hapus</string>
+    <string name="no_income_data">Belum ada data pemasukan untuk dianalisis rasio 50/30/20.</string>
+    <string name="advice_needs_high">Kebutuhan Anda (%1$d%%) melebihi 50%%. Coba tinjau biaya tetap Anda.</string>
+    <string name="advice_wants_high">Keinginan Anda (%1$d%%) melebihi 30%%. Hemat pengeluaran gaya hidup.</string>
+    <string name="advice_savings_low">Tabungan Anda (%1$d%%) di bawah 20%%. Cobalah menyisihkan lebih banyak.</string>
+    <string name="advice_ideal">Luar biasa! Pengelolaan keuangan Anda mengikuti rasio ideal 50/30/20.</string>
+</resources>

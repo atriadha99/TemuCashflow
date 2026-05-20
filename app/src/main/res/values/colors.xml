@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Gradient -->
+    <color name="purple_primary">#667EEA</color>
+    <color name="purple_secondary">#764BA2</color>
+    <color name="purple_dark">#5a67d8</color>
+
+    <!-- Accent -->
+    <color name="pink_accent">#F093FB</color>
+    <color name="blue_accent">#4FACFE</color>
+
+    <!-- Glass Effect -->
+    <color name="glass_white">#E6FFFFFF</color>
+    <color name="glass_border">#33FFFFFF</color>
+    <color name="card_surface">#F8FAFC</color>
+
+    <!-- Status -->
+    <color name="green_income">#10B981</color>
+    <color name="green_light">#D1FAE5</color>
+    <color name="red_expense">#EF4444</color>
+    <color name="red_light">#FEE2E2</color>
+    <color name="blue_balance">#3B82F6</color>
+    <color name="blue_light">#DBEAFE</color>
+    <color name="orange_warning">#F59E0B</color>
+    <color name="purple_category">#8B5CF6</color>
+
+    <!-- Text -->
+    <color name="text_primary">#1E293B</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="text_muted">#94A3B8</color>
+    <color name="text_white">#FFFFFF</color>
+
+    <!-- Background -->
+    <color name="dark_surface">#0F172A</color>
+    <color name="light_background">#F1F5F9</color>
+</resources>

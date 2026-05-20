@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "12480999238",
+    "project_id": "temucashflow-19a02",
+    "storage_bucket": "temucashflow-19a02.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12480999238:android:fa80f5204a2147865f3f47",
+        "android_client_info": {
+          "package_name": "com.andika.temucashflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXNoyhomFtOgj8NIGzO-nMl4sZ8OjJofM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
