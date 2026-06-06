@@ -52,6 +52,15 @@
     <string name="advice_wants_high">Keinginan Anda (%1$d%%) melebihi 30%%. Hemat pengeluaran gaya hidup.</string>
     <string name="advice_savings_low">Tabungan Anda (%1$d%%) di bawah 20%%. Cobalah menyisihkan lebih banyak.</string>
     <string name="advice_ideal">Luar biasa! Pengelolaan keuangan Anda mengikuti rasio ideal 50/30/20.</string>
+    <string name="health_finance_title">Kesehatan Keuangan (Rasio 50/30/20)</string>
+    <string name="label_needs_target">Kebutuhan (Target: 50%)</string>
+    <string name="label_wants_target">Keinginan (Target: 30%)</string>
+    <string name="label_savings_target">Tabungan/Investasi (Target: 20%)</string>
+    <string name="msg_analyzing_patterns">Menganalisis pola belanja Anda&#8230;</string>
+    <string name="label_savings_goals">Target Tabungan</string>
+    <string name="btn_add_goal">+ Tambah</string>
+    <string name="label_expense_by_category">Pengeluaran per Kategori</string>
+    <string name="msg_transactions_found_format">%1$d transaksi ditemukan</string>
 
     <!-- UI Labels -->
     <string name="label_scan_receipt">Scan Struk (AI)</string>

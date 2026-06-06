@@ -2,9 +2,11 @@ package com.andika.temucashflow.ui.settings;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -15,6 +17,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.biometric.BiometricManager;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.andika.temucashflow.R;
 import com.andika.temucashflow.data.DatabaseHelper;
@@ -80,11 +85,17 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        // Edge to edge setup
+        setupEdgeToEdge();
+
         // MATIKAN PRIVASI LAYAR (Izinkan Share Screen / Recording)
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Handle WindowInsets for padding
+        setupWindowInsets();
 
         db = DatabaseHelper.getInstance(this);
         pref = SharedPrefManager.getInstance(this);
@@ -93,6 +104,44 @@ public class SettingsActivity extends AppCompatActivity {
         initViews();
         setupListeners();
         setupBottomNav();
+    }
+
+    private void setupEdgeToEdge() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getWindow().setDecorFitsSystemWindows(false);
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | 
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            );
+        }
+    }
+
+    private void setupWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.coordinator, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets displayCutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout());
+            
+            int paddingTop = Math.max(systemBars.top, displayCutout.top);
+            
+            // Header padding
+            binding.mainContainer.setPadding(
+                binding.mainContainer.getPaddingLeft(),
+                paddingTop,
+                binding.mainContainer.getPaddingRight(),
+                binding.mainContainer.getPaddingBottom()
+            );
+            
+            // Bottom nav padding
+            binding.bottomNav.setPadding(
+                systemBars.left,
+                0,
+                systemBars.right,
+                systemBars.bottom
+            );
+            
+            return insets;
+        });
     }
 
     private void initViews() {

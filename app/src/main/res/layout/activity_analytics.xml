@@ -2,11 +2,14 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_background">
+    android:background="@color/light_background"
+    android:fitsSystemWindows="false">
 
     <LinearLayout
+        android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -45,13 +48,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Kesehatan Keuangan (Rasio 50/30/20)"
+                            android:text="@string/health_finance_title"
                             android:textStyle="bold"
                             android:textColor="@color/text_primary"
                             android:layout_marginBottom="12dp" />
 
                         <!-- Needs -->
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Kebutuhan (Target: 50%)" android:textSize="12sp"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/label_needs_target" android:textSize="12sp"/>
                         <com.google.android.material.progressindicator.LinearProgressIndicator
                             android:id="@+id/progressNeeds"
                             android:layout_width="match_parent"
@@ -60,7 +63,7 @@
                             android:progress="0" />
 
                         <!-- Wants -->
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Keinginan (Target: 30%)" android:textSize="12sp" android:layout_marginTop="8dp"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/label_wants_target" android:textSize="12sp" android:layout_marginTop="8dp"/>
                         <com.google.android.material.progressindicator.LinearProgressIndicator
                             android:id="@+id/progressWants"
                             android:layout_width="match_parent"
@@ -69,7 +72,7 @@
                             android:progress="0" />
 
                         <!-- Savings -->
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tabungan/Investasi (Target: 20%)" android:textSize="12sp" android:layout_marginTop="8dp"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/label_savings_target" android:textSize="12sp" android:layout_marginTop="8dp"/>
                         <com.google.android.material.progressindicator.LinearProgressIndicator
                             android:id="@+id/progressSavings"
                             android:layout_width="match_parent"
@@ -82,7 +85,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:text="Menganalisis pola belanja Anda..."
+                            android:text="@string/msg_analyzing_patterns"
                             android:textSize="13sp"
                             android:textColor="@color/purple_dark"
                             android:fontStyle="italic"/>
@@ -100,7 +103,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Target Tabungan"
+                        android:text="@string/label_savings_goals"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_primary" />
@@ -109,7 +112,7 @@
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+ Tambah" />
+                        android:text="@string/btn_add_goal" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -134,7 +137,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pengeluaran per Kategori"
+                            android:text="@string/label_expense_by_category"
                             android:textStyle="bold"
                             android:textColor="@color/text_primary"
                             android:layout_marginBottom="16dp" />

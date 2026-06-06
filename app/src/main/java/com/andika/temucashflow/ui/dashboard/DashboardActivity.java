@@ -84,11 +84,14 @@ public class DashboardActivity extends AppCompatActivity {
     private void setupWindowInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.coordinator, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets displayCutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout());
             
-            // Header padding = status bar height + base padding
+            // INCREASED PADDING: status bar height + cutout + extra padding for the clock
+            int paddingTop = Math.max(systemBars.top, displayCutout.top) + (int)(32 * getResources().getDisplayMetrics().density);
+            
             binding.headerContainer.setPadding(
                 binding.headerContainer.getPaddingLeft(),
-                systemBars.top + (int)(16 * getResources().getDisplayMetrics().density),
+                paddingTop,
                 binding.headerContainer.getPaddingRight(),
                 binding.headerContainer.getPaddingBottom()
             );

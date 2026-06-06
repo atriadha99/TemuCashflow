@@ -1,6 +1,7 @@
 package com.andika.temucashflow.ui.analytics;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.andika.temucashflow.R;
@@ -44,12 +48,18 @@ public class AnalyticsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Edge to edge setup
+        setupEdgeToEdge();
 
         // MATIKAN PRIVASI LAYAR (Izinkan Share Screen / Recording)
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
         binding = ActivityAnalyticsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Handle WindowInsets for padding
+        setupWindowInsets();
 
         db = DatabaseHelper.getInstance(this);
         userId = SharedPrefManager.getInstance(this).getUserId();
@@ -59,6 +69,44 @@ public class AnalyticsActivity extends AppCompatActivity {
         setupListeners();
         loadAnalytics();
         loadGoals();
+    }
+
+    private void setupEdgeToEdge() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getWindow().setDecorFitsSystemWindows(false);
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | 
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            );
+        }
+    }
+
+    private void setupWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.coordinator, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets displayCutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout());
+            
+            int paddingTop = Math.max(systemBars.top, displayCutout.top);
+            
+            // Header padding
+            binding.mainContainer.setPadding(
+                binding.mainContainer.getPaddingLeft(),
+                paddingTop,
+                binding.mainContainer.getPaddingRight(),
+                binding.mainContainer.getPaddingBottom()
+            );
+            
+            // Bottom nav padding
+            binding.bottomNav.setPadding(
+                systemBars.left,
+                0,
+                systemBars.right,
+                systemBars.bottom
+            );
+            
+            return insets;
+        });
     }
 
     private void setupRecyclerView() {

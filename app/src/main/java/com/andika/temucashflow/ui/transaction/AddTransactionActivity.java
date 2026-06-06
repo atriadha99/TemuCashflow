@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -16,6 +18,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.andika.temucashflow.R;
 import com.andika.temucashflow.data.DatabaseHelper;
@@ -94,11 +99,17 @@ public class AddTransactionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        // Edge to edge setup
+        setupEdgeToEdge();
+
         // MATIKAN PRIVASI LAYAR (Izinkan Share Screen / Recording)
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
         binding = ActivityAddTransactionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Handle WindowInsets for padding
+        setupWindowInsets();
 
         db = DatabaseHelper.getInstance(this);
         islandManager = new IslandNotificationManager(this);
@@ -116,6 +127,33 @@ public class AddTransactionActivity extends AppCompatActivity {
             selectedDate = System.currentTimeMillis();
             initViews();
         }
+    }
+
+    private void setupEdgeToEdge() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getWindow().setDecorFitsSystemWindows(false);
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | 
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            );
+        }
+    }
+
+    private void setupWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.coordinator, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            
+            // Toolbar padding
+            binding.toolbar.setPadding(
+                binding.toolbar.getPaddingLeft(),
+                systemBars.top,
+                binding.toolbar.getPaddingRight(),
+                binding.toolbar.getPaddingBottom()
+            );
+            
+            return insets;
+        });
     }
 
     private void initViews() {
