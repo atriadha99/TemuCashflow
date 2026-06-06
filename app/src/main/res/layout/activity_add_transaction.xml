@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,10 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/purple_primary"
-        app:title="Tambah Transaksi"
+        app:title="@string/label_save_transaction"
         app:titleTextColor="@color/text_white"
         app:navigationIcon="@drawable/ic_back"
-        app:navigationIconTint="@color/text_white" />
+        app:navigationIconTint="@color/text_white"
+        app:navigationContentDescription="@string/desc_back_button" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,7 +41,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Pengeluaran"
+                    android:text="@string/expense_label"
                     android:layout_marginEnd="8dp"
                     app:cornerRadius="12dp" />
 
@@ -49,15 +51,25 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Pemasukan"
+                    android:text="@string/income_label"
                     app:cornerRadius="12dp" />
             </LinearLayout>
 
             <!-- Amount Input -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnScanReceipt"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/label_scan_receipt"
+                app:icon="@android:drawable/ic_menu_camera"
+                android:layout_marginBottom="4dp"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Jumlah (Rp)"
+                android:hint="@string/label_amount_rp"
                 android:layout_marginBottom="16dp"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
@@ -74,7 +86,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Kategori"
+                android:hint="@string/label_category"
                 android:layout_marginBottom="16dp"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
@@ -82,14 +94,15 @@
                     android:id="@+id/spinnerCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:labelFor="@id/spinnerCategory" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Description -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Keterangan"
+                android:hint="@string/label_description"
                 android:layout_marginBottom="16dp"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
@@ -117,6 +130,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_calendar"
+                    android:contentDescription="@string/desc_calendar_icon"
                     app:tint="@color/purple_primary" />
 
                 <TextView
@@ -125,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="12dp"
-                    android:text="Pilih Tanggal"
+                    android:text="@string/label_select_date"
                     android:textColor="@color/text_primary"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -135,7 +149,7 @@
                 android:id="@+id/btnSave"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Simpan Transaksi"
+                android:text="@string/label_save_transaction"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 app:cornerRadius="16dp"

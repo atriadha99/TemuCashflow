@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_background">
@@ -17,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/purple_primary"
-            app:title="Pengaturan &amp; Profil"
+            app:title="@string/settings_title"
             app:titleTextColor="@color/text_white" />
 
         <!-- Content -->
@@ -42,11 +43,15 @@
                     app:cardElevation="4dp">
 
                     <LinearLayout
+                        android:id="@+id/layoutProfile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="24dp">
+                        android:padding="24dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <ImageView
                             android:layout_width="80dp"
@@ -55,23 +60,24 @@
                             android:background="@drawable/circle_blue"
                             android:padding="16dp"
                             android:src="@drawable/ic_person"
+                            android:contentDescription="@string/desc_person_icon"
                             app:tint="@color/purple_primary" />
 
                         <TextView
                             android:id="@+id/tvUserName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="User Name"
                             android:textColor="@color/text_primary"
                             android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="User Name" />
 
                         <TextView
                             android:id="@+id/tvUserEmail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="user@example.com"
-                            android:textColor="@color/text_secondary" />
+                            android:textColor="@color/text_secondary"
+                            tools:text="user@example.com" />
 
                     </LinearLayout>
 
@@ -84,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="Anggaran &amp; Limit"
+                    android:text="@string/label_budget_limit"
                     android:textColor="@color/purple_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -111,6 +117,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_wallet"
+                            android:contentDescription="@string/desc_wallet_icon"
                             app:tint="@color/text_primary" />
 
                         <LinearLayout
@@ -123,7 +130,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Batas Bulanan"
+                                android:text="@string/label_monthly_limit"
                                 android:textColor="@color/text_primary"
                                 android:textStyle="bold" />
 
@@ -131,7 +138,7 @@
                                 android:id="@+id/tvBudgetStatus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Belum diatur"
+                                android:text="@string/label_not_set"
                                 android:textColor="@color/text_secondary"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -140,6 +147,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_edit"
+                            android:contentDescription="@string/desc_edit_icon"
                             app:tint="@color/text_muted" />
 
                     </LinearLayout>
@@ -153,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="Keamanan"
+                    android:text="@string/label_security"
                     android:textColor="@color/purple_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -176,6 +184,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_lock"
+                            android:contentDescription="@string/desc_lock_icon"
                             app:tint="@color/text_primary" />
 
                         <TextView
@@ -183,7 +192,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_weight="1"
-                            android:text="Kunci Biometrik"
+                            android:text="@string/biometric_lock"
                             android:textColor="@color/text_primary" />
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -202,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="Tampilan"
+                    android:text="@string/label_appearance"
                     android:textColor="@color/purple_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -225,6 +234,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_chart"
+                            android:contentDescription="@string/desc_chart_icon"
                             app:tint="@color/text_primary" />
 
                         <TextView
@@ -232,7 +242,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_weight="1"
-                            android:text="Mode Gelap"
+                            android:text="@string/dark_mode"
                             android:textColor="@color/text_primary" />
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -251,7 +261,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="Data &amp; Backup"
+                    android:text="@string/label_data_backup"
                     android:textColor="@color/purple_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -285,13 +295,14 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_edit"
+                                android:contentDescription="@string/desc_edit_icon"
                                 app:tint="@color/text_primary" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
-                                android:text="Ubah Nama Panggilan" />
+                                android:text="@string/edit_name" />
 
                         </LinearLayout>
 
@@ -317,13 +328,14 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_export"
+                                android:contentDescription="@string/desc_export_icon"
                                 app:tint="@color/text_primary" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
-                                android:text="Export Data (JSON)" />
+                                android:text="@string/export_json" />
 
                         </LinearLayout>
 
@@ -349,13 +361,14 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_export"
+                                android:contentDescription="@string/desc_export_icon"
                                 app:tint="@color/text_primary" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
-                                android:text="Export Data (Excel)" />
+                                android:text="@string/label_export_excel" />
 
                         </LinearLayout>
 
@@ -381,13 +394,14 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@android:drawable/ic_menu_upload"
+                                android:contentDescription="@string/desc_export_icon"
                                 app:tint="@color/text_primary" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
-                                android:text="Import Data (JSON)" />
+                                android:text="@string/import_json" />
 
                         </LinearLayout>
 
@@ -413,13 +427,14 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_delete"
+                                android:contentDescription="@string/desc_delete_icon"
                                 app:tint="@color/red_expense" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
-                                android:text="Hapus Semua Transaksi"
+                                android:text="@string/reset_data"
                                 android:textColor="@color/red_expense" />
 
                         </LinearLayout>
@@ -435,7 +450,7 @@
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:text="Keluar Akun"
+                    android:text="@string/logout"
                     android:textColor="@color/red_expense"
                     app:cornerRadius="16dp"
                     app:strokeColor="@color/red_expense" />

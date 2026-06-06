@@ -52,4 +52,51 @@
     <string name="advice_wants_high">Keinginan Anda (%1$d%%) melebihi 30%%. Hemat pengeluaran gaya hidup.</string>
     <string name="advice_savings_low">Tabungan Anda (%1$d%%) di bawah 20%%. Cobalah menyisihkan lebih banyak.</string>
     <string name="advice_ideal">Luar biasa! Pengelolaan keuangan Anda mengikuti rasio ideal 50/30/20.</string>
+
+    <!-- UI Labels -->
+    <string name="label_scan_receipt">Scan Struk (AI)</string>
+    <string name="label_amount_rp">Jumlah (Rp)</string>
+    <string name="label_category">Kategori</string>
+    <string name="label_description">Keterangan</string>
+    <string name="label_select_date">Pilih Tanggal</string>
+    <string name="label_save_transaction">Simpan Transaksi</string>
+    <string name="label_budget_limit">Anggaran &amp; Limit</string>
+    <string name="label_monthly_limit">Batas Bulanan</string>
+    <string name="label_not_set">Belum diatur</string>
+    <string name="label_security">Keamanan</string>
+    <string name="label_appearance">Tampilan</string>
+    <string name="label_data_backup">Data &amp; Backup</string>
+    <string name="label_export_excel">Export Data (Excel)</string>
+    <string name="label_income">Income</string>
+    <string name="label_expense">Expense</string>
+    <string name="label_balance">Balance</string>
+    <string name="label_default_amount">Rp 0</string>
+
+    <!-- Dashboard Messages -->
+    <string name="greeting_format">Halo, %1$s!</string>
+    <string name="limit_format">Limit: %1$s</string>
+    <string name="balance_remaining_format">%1$d%% Tersisa</string>
+    <string name="budget_status_good">Status: Baik</string>
+    <string name="budget_status_warning">Status: Waspada</string>
+    <string name="budget_status_bad">Status: Buruk (Over)</string>
+
+    <!-- Scan Receipt Messages -->
+    <string name="msg_analyzing_receipt">Menganalisis struk&#8230;</string>
+    <string name="msg_detect_amount_success">Berhasil mendeteksi jumlah</string>
+    <string name="msg_detect_amount_failed">Tidak dapat mendeteksi jumlah otomatis</string>
+    <string name="msg_process_image_failed">Gagal memproses gambar</string>
+    <string name="msg_camera_permission_required">Izin kamera diperlukan untuk scan struk</string>
+
+    <!-- Accessibility -->
+    <string name="desc_back_button">Tombol Kembali</string>
+    <string name="desc_wallet_icon">Ikon Dompet</string>
+    <string name="desc_calendar_icon">Ikon Kalender</string>
+    <string name="desc_person_icon">Ikon Profil</string>
+    <string name="desc_edit_icon">Ikon Ubah</string>
+    <string name="desc_lock_icon">Ikon Kunci</string>
+    <string name="desc_chart_icon">Ikon Grafik</string>
+    <string name="desc_export_icon">Ikon Ekspor</string>
+    <string name="desc_delete_icon">Ikon Hapus</string>
+    <string name="desc_close_button">Tombol Tutup</string>
+    <string name="desc_transaction_icon">Ikon Transaksi</string>
 </resources>

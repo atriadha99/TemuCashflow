@@ -2,10 +2,19 @@
 <resources>
     <style name="Theme.TemuCashflow" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/purple_primary</item>
+        <item name="colorPrimaryVariant">@color/purple_secondary</item>
         <item name="colorOnPrimary">@color/text_white</item>
         <item name="colorSecondary">@color/pink_accent</item>
+
+        <!-- Edge to Edge -->
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:fitsSystemWindows">false</item>
+
+        <!-- Light status bar icons (false = white icons) -->
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

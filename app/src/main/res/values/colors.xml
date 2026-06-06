@@ -33,4 +33,8 @@
     <!-- Background -->
     <color name="dark_surface">#0F172A</color>
     <color name="light_background">#F1F5F9</color>
+
+    <!-- Island Colors -->
+    <color name="island_background">#1A1A2E</color>
+    <color name="island_glass">#CC1E1E2E</color>
 </resources>

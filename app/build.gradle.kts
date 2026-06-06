@@ -74,6 +74,9 @@ dependencies {
     implementation(libs.mpandroidchart)
     implementation(libs.gson)
 
+    // ML Kit
+    implementation(libs.mlkit.text.recognition)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

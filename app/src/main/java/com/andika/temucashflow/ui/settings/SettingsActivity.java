@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -45,6 +46,7 @@ import java.util.concurrent.Executors;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private static final String TAG = "SettingsActivity";
     private ActivitySettingsBinding binding;
     private DatabaseHelper db;
     private SharedPrefManager pref;
@@ -104,9 +106,9 @@ public class SettingsActivity extends AppCompatActivity {
     private void updateBudgetStatus() {
         float budget = pref.getMonthlyBudget();
         if (budget > 0) {
-            binding.tvBudgetStatus.setText("Limit: " + CurrencyFormatter.format(budget));
+            binding.tvBudgetStatus.setText(getString(R.string.limit_format, CurrencyFormatter.format(budget)));
         } else {
-            binding.tvBudgetStatus.setText("Belum diatur");
+            binding.tvBudgetStatus.setText(R.string.label_not_set);
         }
     }
 
@@ -161,6 +163,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         binding.btnEditName.setOnClickListener(v -> showEditNameDialog());
+        binding.layoutProfile.setOnClickListener(v -> showEditNameDialog());
         binding.btnSetBudget.setOnClickListener(v -> showSetBudgetDialog());
         
         binding.btnExportExcel.setOnClickListener(v -> {
@@ -173,9 +176,7 @@ public class SettingsActivity extends AppCompatActivity {
             exportJsonLauncher.launch("TemuCashflow_Backup_" + date + ".json");
         });
 
-        binding.btnImportJson.setOnClickListener(v -> {
-            importJsonLauncher.launch(new String[]{"application/json"});
-        });
+        binding.btnImportJson.setOnClickListener(v -> importJsonLauncher.launch(new String[]{"application/json"}));
 
         binding.btnResetData.setOnClickListener(v -> showResetDataDialog());
         binding.btnLogout.setOnClickListener(v -> showLogoutDialog());
@@ -203,7 +204,7 @@ public class SettingsActivity extends AppCompatActivity {
                 .setTitle("Atur Anggaran Bulanan")
                 .setMessage("Dapatkan notifikasi jika pengeluaran belanja melebihi batas ini.")
                 .setView(container)
-                .setPositiveButton("Simpan", (dialog, which) -> {
+                .setPositiveButton(R.string.save_label, (dialog, which) -> {
                     String budgetStr = etBudget.getText().toString().trim();
                     if (!budgetStr.isEmpty()) {
                         float budget = Float.parseFloat(budgetStr);
@@ -217,7 +218,7 @@ public class SettingsActivity extends AppCompatActivity {
                     updateBudgetStatus();
                     Toast.makeText(this, "Limit anggaran dihapus", Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("Batal", null)
+                .setNegativeButton(R.string.cancel_label, null)
                 .show();
     }
 
@@ -238,7 +239,7 @@ public class SettingsActivity extends AppCompatActivity {
         new MaterialAlertDialogBuilder(this)
                 .setTitle("Ubah Nama Panggilan")
                 .setView(container)
-                .setPositiveButton("Simpan", (dialog, which) -> {
+                .setPositiveButton(R.string.save_label, (dialog, which) -> {
                     String newName = etName.getText().toString().trim();
                     if (!newName.isEmpty()) {
                         if (db.updateUserName(userId, newName)) {
@@ -248,7 +249,7 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setNegativeButton("Batal", null)
+                .setNegativeButton(R.string.cancel_label, null)
                 .show();
     }
 
@@ -291,7 +292,7 @@ public class SettingsActivity extends AppCompatActivity {
                 runOnUiThread(() -> Toast.makeText(this, "Laporan Excel berhasil disimpan!", Toast.LENGTH_LONG).show());
                 
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, "Error exporting Excel", e);
                 runOnUiThread(() -> Toast.makeText(this, "Gagal export Excel: " + e.getMessage(), Toast.LENGTH_LONG).show());
             }
         });
@@ -306,7 +307,7 @@ public class SettingsActivity extends AppCompatActivity {
                     runOnUiThread(() -> Toast.makeText(this, "Backup JSON berhasil disimpan", Toast.LENGTH_SHORT).show());
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, "Error exporting JSON", e);
                 runOnUiThread(() -> Toast.makeText(this, "Gagal export JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         });
@@ -323,7 +324,7 @@ public class SettingsActivity extends AppCompatActivity {
                 int count = db.importFromJson(userId, sb.toString());
                 runOnUiThread(() -> Toast.makeText(this, count + " transaksi berhasil di-import", Toast.LENGTH_SHORT).show());
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, "Error importing JSON", e);
                 runOnUiThread(() -> Toast.makeText(this, "Gagal import: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         });
@@ -337,22 +338,22 @@ public class SettingsActivity extends AppCompatActivity {
                     db.deleteAllTransactions(userId);
                     Toast.makeText(this, "Semua data transaksi berhasil dihapus", Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("Batal", null)
+                .setNegativeButton(R.string.cancel_label, null)
                 .show();
     }
 
     private void showLogoutDialog() {
         new MaterialAlertDialogBuilder(this)
-                .setTitle("Keluar Akun")
+                .setTitle(R.string.logout)
                 .setMessage("Apakah Anda yakin ingin keluar?")
-                .setPositiveButton("Keluar", (dialog, which) -> {
+                .setPositiveButton(R.string.logout, (dialog, which) -> {
                     pref.clear();
                     Intent intent = new Intent(this, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 })
-                .setNegativeButton("Batal", null)
+                .setNegativeButton(R.string.cancel_label, null)
                 .show();
     }
 

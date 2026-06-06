@@ -1,11 +1,11 @@
 [versions]
 agp = "9.2.1"
 googleServices = "4.4.4"
-firebaseBom = "34.13.0"
+firebaseBom = "34.14.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
-appcompat = "1.7.0"
+appcompat = "1.7.1"
 material = "1.14.0"
 activity = "1.9.3"
 constraintlayout = "2.2.1"
@@ -13,7 +13,7 @@ recyclerview = "1.4.0"
 cardview = "1.0.0"
 biometric = "1.1.0"
 poi = "5.5.1"
-jackson = "2.21.3"
+jackson = "2.22.0"
 mpandroidchart = "v3.1.0"
 gson = "2.14.0"
 
@@ -42,6 +42,9 @@ jackson-core = { group = "com.fasterxml.jackson.core", name = "jackson-core", ve
 # Charts & Gson
 mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpandroidchart" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+
+# ML Kit
+mlkit-text-recognition = { group = "com.google.android.gms", name = "play-services-mlkit-text-recognition", version = "19.0.1" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

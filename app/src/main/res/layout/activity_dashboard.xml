@@ -2,54 +2,70 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false">
 
-    <!-- Background Gradient -->
+    <!-- Background Gradient (full screen) -->
     <View
+        android:id="@+id/bgGradient"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="320dp"
         android:background="@drawable/gradient_background" />
 
+    <!-- Content -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:clipToPadding="false">
 
         <LinearLayout
+            android:id="@+id/contentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-            <!-- Header with Settings Button -->
+            <!-- HEADER dengan padding status bar (di-set via code) -->
             <RelativeLayout
+                android:id="@+id/headerContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_alignParentStart="true">
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true">
 
+                    <!-- Greeting -->
                     <TextView
                         android:id="@+id/tvGreeting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Halo, User!"
-                        android:textSize="24sp"
+                        android:textSize="26sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_white" />
+                        android:textColor="@color/text_white"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        tools:text="Halo, User!" />
 
+                    <!-- Date -->
                     <TextView
                         android:id="@+id/tvDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Senin, 01 Januari 2024"
                         android:textColor="@color/text_white"
-                        android:alpha="0.8" />
+                        android:alpha="0.85"
+                        android:textSize="14sp"
+                        android:layout_marginTop="4dp"
+                        tools:text="Sabtu, 06 Juni 2026" />
                 </LinearLayout>
 
                 <ImageButton
@@ -59,26 +75,29 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_manage"
-                    app:tint="@color/text_white" />
+                    android:src="@drawable/ic_settings"
+                    app:tint="@color/text_white"
+                    android:contentDescription="@string/settings_title" />
             </RelativeLayout>
 
-            <!-- Stats Cards (Glassmorphism Style) -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Stats Card (overlap ke atas sedikit) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardStats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="-8dp"
+                app:cardCornerRadius="24dp"
                 app:cardElevation="8dp"
-                app:cardBackgroundColor="@color/glass_white"
-                android:layout_marginBottom="16dp">
+                app:cardBackgroundColor="@color/glass_white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
-                    <!-- Income Section -->
+                    <!-- Income -->
                     <LinearLayout
                         android:id="@+id/cardIncome"
                         android:layout_width="0dp"
@@ -91,17 +110,17 @@
                         android:focusable="true">
 
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:src="@drawable/ic_arrow_down"
                             android:background="@drawable/circle_green"
                             android:padding="10dp"
-                            app:tint="@color/green_income" />
+                            android:contentDescription="@string/income_label" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pemasukan"
+                            android:text="@string/income_label"
                             android:textSize="11sp"
                             android:textColor="@color/text_secondary"
                             android:layout_marginTop="8dp" />
@@ -110,7 +129,7 @@
                             android:id="@+id/tvTotalIncome"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Rp 0"
+                            android:text="@string/label_default_amount"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="@color/green_income" />
@@ -120,9 +139,9 @@
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:background="@color/glass_border"
-                        android:layout_marginHorizontal="8dp" />
+                        android:layout_marginHorizontal="12dp" />
 
-                    <!-- Expense Section -->
+                    <!-- Expense -->
                     <LinearLayout
                         android:id="@+id/cardExpense"
                         android:layout_width="0dp"
@@ -135,17 +154,17 @@
                         android:focusable="true">
 
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:src="@drawable/ic_arrow_up"
                             android:background="@drawable/circle_red"
                             android:padding="10dp"
-                            app:tint="@color/red_expense" />
+                            android:contentDescription="@string/expense_label" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pengeluaran"
+                            android:text="@string/expense_label"
                             android:textSize="11sp"
                             android:textColor="@color/text_secondary"
                             android:layout_marginTop="8dp" />
@@ -154,7 +173,7 @@
                             android:id="@+id/tvTotalExpense"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Rp 0"
+                            android:text="@string/label_default_amount"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="@color/red_expense" />
@@ -164,9 +183,9 @@
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:background="@color/glass_border"
-                        android:layout_marginHorizontal="8dp" />
+                        android:layout_marginHorizontal="12dp" />
 
-                    <!-- Balance Section -->
+                    <!-- Balance -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -175,17 +194,17 @@
                         android:gravity="center">
 
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:src="@drawable/ic_wallet"
                             android:background="@drawable/circle_blue"
                             android:padding="10dp"
-                            app:tint="@color/blue_balance" />
+                            android:contentDescription="@string/balance_label" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Saldo"
+                            android:text="@string/balance_label"
                             android:textSize="11sp"
                             android:textColor="@color/text_secondary"
                             android:layout_marginTop="8dp" />
@@ -194,7 +213,7 @@
                             android:id="@+id/tvBalance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Rp 0"
+                            android:text="@string/label_default_amount"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="@color/blue_balance" />
@@ -206,23 +225,26 @@
                             android:text="0%"
                             android:textSize="10sp"
                             android:textColor="@color/blue_balance"
-                            android:background="@color/blue_light"
-                            android:paddingHorizontal="6dp"
+                            android:background="@drawable/badge_blue"
+                            android:paddingHorizontal="8dp"
                             android:paddingVertical="2dp"
-                            android:layout_marginTop="2dp" />
+                            android:layout_marginTop="4dp" />
                     </LinearLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <!-- Budget Progress Card -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Budget Section -->
+            <androidx.cardview.widget.CardView
                 android:id="@+id/cardBudget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp"
-                android:layout_marginBottom="16dp"
-                android:visibility="gone">
+                app:cardBackgroundColor="@color/card_surface"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -230,80 +252,82 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Anggaran Bulanan"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_primary"
-                            android:textSize="16sp"/>
-
-                        <TextView
-                            android:id="@+id/tvBudgetWarning"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:text="Status: Baik"
-                            android:textColor="@color/green_income"
-                            android:textStyle="bold"
-                            android:textSize="14sp"/>
-                    </RelativeLayout>
-
-                    <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:id="@+id/budgetProgress"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Anggaran Bulanan"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
+
+                        <TextView
+                            android:id="@+id/tvBudgetStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textColor="@color/red_expense"
+                            tools:text="Status" />
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/progressBudget"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
                         android:layout_marginTop="12dp"
-                        app:trackThickness="8dp"
-                        app:trackCornerRadius="4dp"
-                        app:indicatorColor="@color/purple_primary"
-                        app:trackColor="@color/light_background"
-                        android:progress="0" />
+                        android:progress="65"
+                        android:progressDrawable="@drawable/progress_red"
+                        android:max="100" />
 
                     <TextView
-                        android:id="@+id/tvBudgetText"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tvBudgetAmount"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Rp 0 / Rp 0"
                         android:textSize="12sp"
                         android:textColor="@color/text_secondary"
-                        android:gravity="end"/>
+                        android:layout_marginTop="8dp"
+                        android:layout_gravity="end"
+                        tools:text="Rp599.260,00 / Rp1.000.000" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <!-- Cashflow Summary Chart -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Chart -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="4dp"
-                android:layout_marginBottom="16dp">
+                app:cardElevation="4dp">
 
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/barChart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="8dp" />
-            </com.google.android.material.card.MaterialCardView>
+                    android:padding="12dp" />
+            </androidx.cardview.widget.CardView>
 
-            <!-- Recent Transactions List Section -->
+            <!-- Recent Transactions -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
+                android:paddingHorizontal="16dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="12dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Transaksi Terbaru"
+                    android:text="@string/recent_transactions"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary" />
@@ -312,17 +336,19 @@
                     android:id="@+id/tvSeeAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lihat Semua"
+                    android:text="@string/see_all"
                     android:textSize="14sp"
                     android:textColor="@color/purple_primary"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                android:layout_marginBottom="80dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvTransactions"
@@ -330,29 +356,27 @@
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
                     android:padding="8dp" />
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <!-- Bottom spacing for FAB and Nav -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- FAB Add Transaction -->
+    <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="80dp"
         android:src="@drawable/ic_add"
+        android:contentDescription="@string/label_save_transaction"
         app:backgroundTint="@color/purple_primary"
         app:tint="@color/text_white"
-        app:elevation="8dp" />
+        app:elevation="8dp"
+        app:fabSize="normal" />
 
-    <!-- Bottom Navigation Bar -->
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
@@ -362,6 +386,8 @@
         app:menu="@menu/bottom_nav_menu"
         app:itemIconTint="@color/bottom_nav_color"
         app:itemTextColor="@color/bottom_nav_color"
-        app:labelVisibilityMode="labeled" />
+        app:labelVisibilityMode="labeled"
+        app:itemRippleColor="@color/purple_primary"
+        android:elevation="16dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
