@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/purple_primary"
-            app:title="Riwayat Transaksi"
+            app:title="@string/transaction_history_title"
             app:titleTextColor="@color/text_white" />
 
         <!-- Search Bar -->

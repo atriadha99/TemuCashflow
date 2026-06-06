@@ -366,7 +366,8 @@ public class AddTransactionActivity extends AppCompatActivity {
 
         String amountStr = binding.etAmount.getText().toString().trim();
         String description = binding.etDescription.getText().toString().trim();
-        String category = binding.spinnerCategory.getText().toString();
+        String category = binding.spinnerCategory.getText() != null ? 
+                binding.spinnerCategory.getText().toString() : "";
 
         if (amountStr.isEmpty()) {
             binding.etAmount.setError("Jumlah harus diisi");

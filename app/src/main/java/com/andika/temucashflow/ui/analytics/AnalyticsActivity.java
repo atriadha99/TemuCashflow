@@ -34,7 +34,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -151,14 +150,12 @@ public class AnalyticsActivity extends AppCompatActivity {
                 startActivity(new Intent(this, TransactionListActivity.class));
                 overridePendingTransition(0, 0);
                 return true;
-            } else if (id == R.id.nav_analytics) {
-                return true;
             } else if (id == R.id.nav_settings) {
                 startActivity(new Intent(this, SettingsActivity.class));
                 overridePendingTransition(0, 0);
                 return true;
             }
-            return false;
+            return id == R.id.nav_analytics;
         });
     }
 

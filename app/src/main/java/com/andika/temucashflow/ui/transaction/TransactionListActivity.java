@@ -119,8 +119,6 @@ public class TransactionListActivity extends AppCompatActivity {
                 startActivity(new Intent(this, DashboardActivity.class));
                 overridePendingTransition(0, 0);
                 return true;
-            } else if (id == R.id.nav_transactions) {
-                return true;
             } else if (id == R.id.nav_analytics) {
                 startActivity(new Intent(this, AnalyticsActivity.class));
                 overridePendingTransition(0, 0);
@@ -130,7 +128,7 @@ public class TransactionListActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 return true;
             }
-            return false;
+            return id == R.id.nav_transactions;
         });
     }
 
@@ -218,7 +216,7 @@ public class TransactionListActivity extends AppCompatActivity {
         // Memanggil DatabaseHelper dengan parameter query pencarian
         List<Transaction> transactions = db.getTransactionsFiltered(userId, currentFilter, currentSort, currentOrder, currentQuery);
         adapter.setTransactions(transactions);
-        binding.tvCount.setText(transactions.size() + " transaksi ditemukan");
+        binding.tvCount.setText(getString(R.string.msg_transactions_found_format, transactions.size()));
     }
 
     private void showDeleteDialog(Transaction transaction) {

@@ -61,6 +61,8 @@
     <string name="btn_add_goal">+ Tambah</string>
     <string name="label_expense_by_category">Pengeluaran per Kategori</string>
     <string name="msg_transactions_found_format">%1$d transaksi ditemukan</string>
+    <string name="analytics_title">Analisis Keuangan</string>
+    <string name="transaction_history_title">Riwayat Transaksi</string>
 
     <!-- UI Labels -->
     <string name="label_scan_receipt">Scan Struk (AI)</string>
