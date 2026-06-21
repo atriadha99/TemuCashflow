@@ -1,40 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Gradient -->
-    <color name="purple_primary">#667EEA</color>
-    <color name="purple_secondary">#764BA2</color>
-    <color name="purple_dark">#5a67d8</color>
+    <!-- Fintech Color Palette (Material 3) -->
+    <color name="primary">#2563EB</color>
+    <color name="primary_dark">#0F172A</color>
+    <color name="secondary">#60A5FA</color>
+    <color name="success">#10B981</color>
+    <color name="danger">#EF4444</color>
+    <color name="background">#F8FAFC</color>
+    <color name="surface">#FFFFFF</color>
 
-    <!-- Accent -->
-    <color name="pink_accent">#F093FB</color>
-    <color name="blue_accent">#4FACFE</color>
+    <!-- Legacy / Compatibility Colors - Redefined to match palette -->
+    <color name="purple_primary">#2563EB</color>
+    <color name="purple_secondary">#1E293B</color>
+    <color name="purple_dark">#0F172A</color>
+    <color name="pink_accent">#60A5FA</color>
+    <color name="blue_accent">#2563EB</color>
 
-    <!-- Glass Effect -->
+    <!-- Glass & Surface -->
     <color name="glass_white">#E6FFFFFF</color>
     <color name="glass_border">#33FFFFFF</color>
-    <color name="card_surface">#F8FAFC</color>
+    <color name="card_surface">#FFFFFF</color>
 
-    <!-- Status -->
+    <!-- Status & Indicator Colors -->
     <color name="green_income">#10B981</color>
     <color name="green_light">#D1FAE5</color>
     <color name="red_expense">#EF4444</color>
     <color name="red_light">#FEE2E2</color>
-    <color name="blue_balance">#3B82F6</color>
+    <color name="blue_balance">#2563EB</color>
     <color name="blue_light">#DBEAFE</color>
     <color name="orange_warning">#F59E0B</color>
     <color name="purple_category">#8B5CF6</color>
 
-    <!-- Text -->
+    <!-- Text Colors -->
     <color name="text_primary">#1E293B</color>
     <color name="text_secondary">#64748B</color>
     <color name="text_muted">#94A3B8</color>
     <color name="text_white">#FFFFFF</color>
 
-    <!-- Background -->
+    <!-- Backgrounds -->
     <color name="dark_surface">#0F172A</color>
-    <color name="light_background">#F1F5F9</color>
+    <color name="light_background">#F8FAFC</color>
 
-    <!-- Island Colors -->
+    <!-- Island Colors (Will be removed from UI but keeping for now to avoid errors) -->
     <color name="island_background">#1A1A2E</color>
     <color name="island_glass">#CC1E1E2E</color>
+
+    <!-- Bottom Nav -->
+    <color name="bottom_nav_selected">#2563EB</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 </resources>

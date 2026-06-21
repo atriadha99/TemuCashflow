@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.TemuCashflow" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/purple_primary</item>
-        <item name="colorPrimaryVariant">@color/purple_secondary</item>
-        <item name="colorOnPrimary">@color/text_white</item>
-        <item name="colorSecondary">@color/pink_accent</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/blue_light</item>
+        <item name="colorOnPrimaryContainer">@color/primary</item>
+
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <item name="colorError">@color/danger</item>
+        <item name="colorOnError">@color/white</item>
+
+        <item name="android:windowBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
 
         <!-- Edge to Edge -->
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -14,7 +24,17 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:fitsSystemWindows">false</item>
 
-        <!-- Light status bar icons (false = white icons) -->
-        <item name="android:windowLightStatusBar">false</item>
+        <!-- Use light/dark status bar automatically based on theme -->
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+    </style>
+
+    <attr name="isLightTheme" format="boolean" />
+
+    <style name="Theme.TemuCashflow.Light" parent="Theme.TemuCashflow">
+        <item name="isLightTheme">true</item>
+    </style>
+
+    <style name="Theme.TemuCashflow.Dark" parent="Theme.TemuCashflow">
+        <item name="isLightTheme">false</item>
     </style>
 </resources>

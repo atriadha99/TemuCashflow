@@ -13,6 +13,7 @@ public class SharedPrefManager {
     private static final String KEY_BIOMETRIC_ENABLED = "biometric_enabled";
     private static final String KEY_REMINDER_ENABLED = "reminder_enabled";
     private static final String KEY_MONTHLY_BUDGET = "monthly_budget";
+    private static final String KEY_SHAKE_ENABLED = "shake_enabled";
 
     private static SharedPrefManager instance;
     private SharedPreferences sharedPreferences;
@@ -72,6 +73,15 @@ public class SharedPrefManager {
 
     public float getMonthlyBudget() {
         return sharedPreferences.getFloat(KEY_MONTHLY_BUDGET, 0); // Default 0 (no budget set)
+    }
+
+    public void setShakeEnabled(boolean isEnabled) {
+        editor.putBoolean(KEY_SHAKE_ENABLED, isEnabled);
+        editor.apply();
+    }
+
+    public boolean isShakeEnabled() {
+        return sharedPreferences.getBoolean(KEY_SHAKE_ENABLED, true); // Default true
     }
 
     public boolean isLoggedIn() {

@@ -15,7 +15,6 @@
     <!-- Izin untuk Alarm -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"
         android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -44,9 +43,7 @@
         <activity android:name=".ui.login.RegisterActivity" android:exported="false" />
         <activity android:name=".ui.dashboard.DashboardActivity" android:exported="false" />
         <activity android:name=".ui.transaction.AddTransactionActivity" android:exported="false" />
-        <activity android:name=".ui.transaction.TransactionListActivity" android:exported="false" />
-        <activity android:name=".ui.analytics.AnalyticsActivity" android:exported="false" />
-        <activity android:name=".ui.settings.SettingsActivity" android:exported="false" />
+        <activity android:name=".ui.education.EducationActivity" android:exported="false" />
 
         <!-- Register Reminder Receiver -->
         <receiver android:name=".utils.ReminderReceiver" android:exported="false" />

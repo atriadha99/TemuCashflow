@@ -28,7 +28,6 @@ import com.andika.temucashflow.data.SharedPrefManager;
 import com.andika.temucashflow.databinding.ActivityAddTransactionBinding;
 import com.andika.temucashflow.model.Transaction;
 import com.andika.temucashflow.utils.DateUtils;
-import com.andika.temucashflow.utils.IslandNotificationManager;
 import com.andika.temucashflow.utils.NotificationHelper;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.mlkit.vision.common.InputImage;
@@ -46,7 +45,6 @@ public class AddTransactionActivity extends AppCompatActivity {
     private static final String TAG = "AddTransactionActivity";
     private ActivityAddTransactionBinding binding;
     private DatabaseHelper db;
-    private IslandNotificationManager islandManager;
     private String currentType = "expense";
     private long selectedDate;
     private long editTransactionId = -1; // -1 berarti mode Tambah
@@ -112,8 +110,7 @@ public class AddTransactionActivity extends AppCompatActivity {
         setupWindowInsets();
 
         db = DatabaseHelper.getInstance(this);
-        islandManager = new IslandNotificationManager(this);
-        
+
         // Ambil ID jika dikirim dari List (Mode Edit)
         editTransactionId = getIntent().getLongExtra("transaction_id", -1);
         
@@ -272,14 +269,6 @@ public class AddTransactionActivity extends AppCompatActivity {
 
                     if (detectedAmount > 0 || !merchant.isEmpty()) {
                         Toast.makeText(this, "Scan berhasil!", Toast.LENGTH_SHORT).show();
-                        
-                        // Show Island Notification for scan result
-                        Transaction mock = new Transaction(currentType, detectedAmount, category, merchant, selectedDate, 0);
-                        if ("income".equals(currentType)) {
-                            islandManager.showIncome(detectedAmount, mock);
-                        } else {
-                            islandManager.showExpense(detectedAmount, mock);
-                        }
                     } else {
                         Toast.makeText(this, R.string.msg_detect_amount_failed, Toast.LENGTH_LONG).show();
                     }
@@ -424,9 +413,6 @@ public class AddTransactionActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (islandManager != null) {
-            islandManager.destroy();
-        }
         binding = null;
     }
 }
