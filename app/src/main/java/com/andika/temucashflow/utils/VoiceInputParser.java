@@ -1,5 +1,7 @@
 package com.andika.temucashflow.utils;
 
+import androidx.annotation.NonNull;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,6 +13,7 @@ public class VoiceInputParser {
         public String category;
         public String description;
 
+        @NonNull
         @Override
         public String toString() {
             return "Type: " + type + ", Amount: " + amount + ", Category: " + category;
@@ -67,7 +70,10 @@ public class VoiceInputParser {
         Matcher matcher = pattern.matcher(processed);
         if (matcher.find()) {
             try {
-                return Double.parseDouble(matcher.group(1)) * multiplier;
+                String group = matcher.group(1);
+                if (group != null) {
+                    return Double.parseDouble(group) * multiplier;
+                }
             } catch (Exception e) {
                 return 0;
             }

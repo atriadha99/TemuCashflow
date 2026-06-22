@@ -150,7 +150,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Score"
+                                android:text="@string/health_score_label"
                                 android:textSize="12sp" />
                         </LinearLayout>
                         <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/background" />
@@ -164,7 +164,7 @@
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@drawable/badge_blue"
-                                android:contentDescription="Badge" />
+                                android:contentDescription="@string/desc_badge" />
                             <TextView
                                 android:id="@+id/tvBadge"
                                 android:layout_width="wrap_content"
@@ -315,7 +315,7 @@
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Accessibility Settings"
+                        android:text="@string/accessibility_settings"
                         android:textAlignment="viewStart"
                         app:icon="@drawable/ic_settings" />
                 </LinearLayout>
@@ -355,7 +355,7 @@
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Export CSV"
+                        android:text="@string/export_csv"
                         android:textAlignment="viewStart"
                         app:icon="@drawable/ic_export" />
 
@@ -364,7 +364,7 @@
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Export PDF"
+                        android:text="@string/export_pdf"
                         android:textAlignment="viewStart"
                         app:icon="@drawable/ic_export" />
 

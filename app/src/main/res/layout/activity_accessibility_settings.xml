@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/surface"
-        app:title="Accessibility Settings"
+        app:title="@string/accessibility_settings"
         app:titleTextColor="@color/text_primary" />
 
     <ScrollView
@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Font Size"
+                android:text="@string/font_size_label"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
@@ -43,9 +43,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp">
-                    <RadioButton android:id="@+id/rbSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Small" />
-                    <RadioButton android:id="@+id/rbMedium" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Medium" />
-                    <RadioButton android:id="@+id/rbLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Large" />
+                    <RadioButton android:id="@+id/rbSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/label_small" />
+                    <RadioButton android:id="@+id/rbMedium" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/label_medium" />
+                    <RadioButton android:id="@+id/rbLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/label_large" />
                 </RadioGroup>
             </com.google.android.material.card.MaterialCardView>
 
@@ -53,7 +53,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Features"
+                android:text="@string/label_features"
                 android:textStyle="bold"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="8dp" />
@@ -74,28 +74,28 @@
                         android:id="@+id/switchHighContrast"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="High Contrast Mode"
+                        android:text="@string/high_contrast_label"
                         android:padding="8dp" />
 
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switchTts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Text To Speech"
+                        android:text="@string/tts_label"
                         android:padding="8dp" />
 
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switchSpeechRecog"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Speech Recognition"
+                        android:text="@string/speech_rec_label"
                         android:padding="8dp" />
 
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switchVibration"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Vibration Feedback"
+                        android:text="@string/vibration_label"
                         android:padding="8dp" />
 
                 </LinearLayout>

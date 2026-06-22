@@ -162,4 +162,10 @@
     <string name="desc_transaction_icon">Ikon Transaksi</string>
     <string name="home_label">Beranda</string>
     <string name="health_score_format">%1$d / 100</string>
+    <string name="label_status">Status:</string>
+    <string name="label_features">Fitur</string>
+    <string name="label_small">Kecil</string>
+    <string name="label_medium">Sedang</string>
+    <string name="label_large">Besar</string>
+    <string name="desc_badge">Lencana Prestasi</string>
 </resources>
