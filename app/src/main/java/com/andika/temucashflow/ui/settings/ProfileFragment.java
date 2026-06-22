@@ -3,7 +3,6 @@ package com.andika.temucashflow.ui.settings;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,8 +36,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -138,15 +135,11 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        binding.switchShake.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            pref.setShakeEnabled(isChecked);
-        });
+        binding.switchShake.setOnCheckedChangeListener((buttonView, isChecked) -> pref.setShakeEnabled(isChecked));
 
         binding.layoutProfile.setOnClickListener(v -> showEditNameDialog());
         
-        binding.btnAccessibility.setOnClickListener(v -> {
-            startActivity(new Intent(requireContext(), AccessibilitySettingsActivity.class));
-        });
+        binding.btnAccessibility.setOnClickListener(v -> startActivity(new Intent(requireContext(), AccessibilitySettingsActivity.class)));
         
         binding.btnExportExcel.setOnClickListener(v -> {
             String date = new SimpleDateFormat("yyyyMMdd_HHmm", Locale.getDefault()).format(new Date());
@@ -243,7 +236,9 @@ public class ProfileFragment extends Fragment {
                        .append("\"").append(t.getDescription()).append("\",")
                        .append(DateUtils.formatDate(t.getDate())).append("\n");
                 }
-                os.write(csv.toString().getBytes());
+                if (os != null) {
+                    os.write(csv.toString().getBytes());
+                }
                 if (isAdded()) {
                     requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "CSV berhasil disimpan", Toast.LENGTH_SHORT).show());
                 }

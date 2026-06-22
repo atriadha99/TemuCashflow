@@ -153,7 +153,7 @@ public class HomeFragment extends Fragment {
         binding.tvHealthScoreSmall.setText(String.valueOf(health.score));
         binding.tvHealthScoreSmall.setTextColor(health.color);
         
-        binding.tvHealthScore.setText(health.score + " / 100");
+        binding.tvHealthScore.setText(getString(R.string.health_score_format, health.score));
         binding.tvHealthStatus.setText(health.status);
         binding.tvHealthStatus.setTextColor(health.color);
         binding.tvHealthRecommendation.setText(health.recommendation);
