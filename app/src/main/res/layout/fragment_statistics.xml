@@ -49,6 +49,15 @@
                     android:padding="24dp"
                     android:gravity="center">
 
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSpeakScore"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:icon="@drawable/ic_notification"
+                        app:iconTint="@color/white"
+                        android:contentDescription="Read Aloud" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -185,6 +194,29 @@
                 android:layout_marginBottom="24dp">
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/barChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:padding="16dp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Monthly Income Trend Chart -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tren Pemasukan Bulanan"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginBottom="12dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="24dp">
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/incomeBarChart"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:padding="16dp" />

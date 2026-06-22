@@ -22,6 +22,8 @@ import com.andika.temucashflow.databinding.FragmentStatisticsBinding;
 import com.andika.temucashflow.model.CategoryStat;
 import com.andika.temucashflow.model.SavingsGoal;
 import com.andika.temucashflow.utils.CurrencyFormatter;
+import com.andika.temucashflow.utils.FinancialHealthCalculator;
+import com.andika.temucashflow.utils.TtsHelper;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -41,6 +43,7 @@ public class StatisticsFragment extends Fragment {
     private FragmentStatisticsBinding binding;
     private DatabaseHelper db;
     private GoalAdapter goalAdapter;
+    private TtsHelper tts;
     private long userId;
 
     @Nullable
@@ -56,6 +59,7 @@ public class StatisticsFragment extends Fragment {
 
         db = DatabaseHelper.getInstance(requireContext());
         userId = SharedPrefManager.getInstance(requireContext()).getUserId();
+        tts = new TtsHelper(requireContext());
 
         setupRecyclerView();
         setupListeners();
@@ -90,6 +94,11 @@ public class StatisticsFragment extends Fragment {
 
     private void setupListeners() {
         binding.btnAddGoal.setOnClickListener(v -> showAddGoalDialog());
+        binding.btnSpeakScore.setOnClickListener(v -> {
+            String score = binding.tvHealthScore.getText().toString();
+            String status = binding.tvHealthCategory.getText().toString();
+            tts.speak("Skor kesehatan keuangan Anda adalah " + score + ". Status " + status);
+        });
     }
 
     private void loadData() {
@@ -100,41 +109,17 @@ public class StatisticsFragment extends Fragment {
         setupFinancialRatio(income);
         setupCategoryChart();
         setupMonthlyBarChart();
+        setupIncomeBarChart();
         loadGoals();
     }
 
     private void calculateFinancialHealthScore(double income, double expense) {
-        int score = 0;
-        
-        if (income > 0) {
-            // 1. Savings Ratio (target > 20%)
-            double savings = income - expense;
-            double savingsRatio = (savings / income) * 100;
-            if (savingsRatio >= 20) score += 40;
-            else if (savingsRatio > 0) score += 20;
+        double savings = income - expense;
+        FinancialHealthCalculator.HealthResult health = FinancialHealthCalculator.calculate(income, expense, savings > 0 ? savings : 0);
 
-            // 2. Expense Ratio (target < 50% for needs)
-            // Simplified: total expense vs income
-            double expenseRatio = (expense / income) * 100;
-            if (expenseRatio <= 50) score += 40;
-            else if (expenseRatio <= 80) score += 20;
-            
-            // 3. Consistency (checking last 3 months)
-            // For now, let's just give points if there's any transaction
-            score += 20; 
-        }
-
-        binding.tvHealthScore.setText(String.valueOf(score));
-        if (score >= 71) {
-            binding.tvHealthCategory.setText(R.string.score_excellent);
-            binding.tvHealthCategory.setTextColor(ContextCompat.getColor(requireContext(), R.color.success));
-        } else if (score >= 41) {
-            binding.tvHealthCategory.setText(R.string.score_good);
-            binding.tvHealthCategory.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange_warning));
-        } else {
-            binding.tvHealthCategory.setText(R.string.score_poor);
-            binding.tvHealthCategory.setTextColor(ContextCompat.getColor(requireContext(), R.color.danger));
-        }
+        binding.tvHealthScore.setText(String.valueOf(health.score));
+        binding.tvHealthCategory.setText(health.status);
+        binding.tvHealthCategory.setTextColor(health.color);
     }
 
     private void setupFinancialRatio(double totalIncome) {
@@ -270,6 +255,49 @@ public class StatisticsFragment extends Fragment {
         binding.barChart.invalidate();
     }
 
+    private void setupIncomeBarChart() {
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+        
+        Calendar cal = Calendar.getInstance();
+        for (int i = 5; i >= 0; i--) {
+            Calendar mCal = (Calendar) cal.clone();
+            mCal.add(Calendar.MONTH, -i);
+            mCal.set(Calendar.DAY_OF_MONTH, 1);
+            mCal.set(Calendar.HOUR_OF_DAY, 0);
+            mCal.set(Calendar.MINUTE, 0);
+            
+            double monthlyIncome = db.getMonthlyIncome(userId, mCal.getTimeInMillis());
+            entries.add(new BarEntry(5 - i, (float) monthlyIncome));
+            
+            String monthName = android.text.format.DateFormat.format("MMM", mCal).toString();
+            labels.add(monthName);
+        }
+
+        BarDataSet dataSet = new BarDataSet(entries, "Pemasukan");
+        dataSet.setColor(ContextCompat.getColor(requireContext(), R.color.success));
+        dataSet.setValueTextSize(10f);
+        dataSet.setValueTextColor(ContextCompat.getColor(requireContext(), R.color.text_secondary));
+
+        BarData data = new BarData(dataSet);
+        data.setBarWidth(0.6f);
+
+        binding.incomeBarChart.setData(data);
+        binding.incomeBarChart.getDescription().setEnabled(false);
+        binding.incomeBarChart.getLegend().setEnabled(false);
+        
+        XAxis xAxis = binding.incomeBarChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1f);
+        
+        binding.incomeBarChart.getAxisLeft().setDrawGridLines(false);
+        binding.incomeBarChart.getAxisRight().setEnabled(false);
+        binding.incomeBarChart.animateY(1000);
+        binding.incomeBarChart.invalidate();
+    }
+
     private void loadGoals() {
         List<SavingsGoal> goals = db.getAllGoals(userId);
         goalAdapter.setGoals(goals);
@@ -325,6 +353,7 @@ public class StatisticsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (tts != null) tts.shutdown();
         binding = null;
     }
 }

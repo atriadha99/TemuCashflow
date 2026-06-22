@@ -15,6 +15,7 @@ import com.andika.temucashflow.R;
 import com.andika.temucashflow.model.Transaction;
 import com.andika.temucashflow.utils.CurrencyFormatter;
 import com.andika.temucashflow.utils.DateUtils;
+import com.andika.temucashflow.utils.TtsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     private Context context;
     private List<Transaction> transactions;
     private OnTransactionClickListener listener;
+    private TtsHelper tts;
 
     public interface OnTransactionClickListener {
         void onTransactionClick(Transaction transaction);
@@ -33,6 +35,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public TransactionAdapter(Context context) {
         this.context = context;
         this.transactions = new ArrayList<>();
+        this.tts = new TtsHelper(context);
     }
 
     public void setOnTransactionClickListener(OnTransactionClickListener listener) {
@@ -90,6 +93,20 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @Override
     public int getItemCount() {
         return transactions.size();
+    }
+
+    public void readTransactionDetail(Transaction transaction) {
+        String type = "income".equals(transaction.getType()) ? "Pemasukan" : "Pengeluaran";
+        String text = String.format("%s. %s. Sebesar %s. Kategori %s.",
+                type,
+                transaction.getDescription(),
+                CurrencyFormatter.format(transaction.getAmount()),
+                transaction.getCategory());
+        tts.speak(text);
+    }
+
+    public void shutdownTts() {
+        if (tts != null) tts.shutdown();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

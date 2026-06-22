@@ -65,80 +65,48 @@
     <string name="financial_health_score">Financial Health Score</string>
     <string name="score_excellent">Excellent</string>
     <string name="score_good">Good</string>
+    <string name="score_fair">Fair</string>
     <string name="score_poor">Needs Improvement</string>
-    <string name="manage_money_smarter">Manage Money Smarter</string>
-    <string name="home_label">Home</string>
-    <string name="transactions_label">Transaksi</string>
-    <string name="profile_label">Profil</string>
-    <string name="statistics_label">Statistik</string>
+    <string name="health_rec_excellent">Luar biasa! Pertahankan pola menabung dan investasi Anda.</string>
+    <string name="health_rec_good">Kondisi keuangan Anda sehat. Coba alokasikan lebih banyak untuk investasi.</string>
+    <string name="health_rec_fair">Cukup baik, namun pengeluaran non-primer Anda masih bisa ditekan.</string>
+    <string name="health_rec_poor">Pengeluaran Anda melebihi batas ideal. Kurangi pengeluaran konsumtif dan tingkatkan tabungan untuk memperbaiki kondisi keuangan.</string>
 
-    <string name="insight_title">Financial Insight</string>
-    <string name="insight_expense_increase">Pengeluaran meningkat %1$d%% dibanding bulan lalu</string>
-    <string name="insight_biggest_category">Kategori %1$s adalah pengeluaran terbesar Anda bulan ini</string>
-    <string name="insight_savings_goal">Anda bisa mencapai target menabung dalam %1$d bulan</string>
+    <string name="insight_today">Insight Hari Ini</string>
+    <string name="insight_spending_ratio">Pengeluaran Anda mencapai %1$d%% dari pemasukan.</string>
+    <string name="insight_biggest_category_percent">Kategori terbesar: %1$s (%2$d%%)</string>
+    <string name="insight_saving_tip">Rekomendasi: Kurangi pengeluaran %1$s sebesar 10%% untuk meningkatkan saldo bulanan.</string>
 
-    <string name="streak_format">%1$d Hari Streak</string>
-    <string name="badge_beginner">Beginner Saver</string>
-    <string name="badge_pro">Smart Planner</string>
-    <string name="badge_master">Financial Master</string>
+    <string name="member_since">Member Since: %1$s</string>
+    <string name="total_transactions">Total Transactions</string>
+    <string name="total_income">Total Income</string>
+    <string name="total_expense">Total Expense</string>
+    <string name="current_savings">Current Savings</string>
 
-    <string name="bill_reminder_title">Pengingat Tagihan</string>
-    <string name="bill_due_tomorrow">%1$s jatuh tempo besok</string>
+    <string name="income_trend">Tren Pemasukan Bulanan</string>
+    <string name="expense_trend">Tren Pengeluaran Bulanan</string>
+    <string name="ratio_50_30_20">Financial Ratio Analysis (50/30/20)</string>
+    <string name="needs_label">Needs (50%)</string>
+    <string name="wants_label">Wants (30%)</string>
+    <string name="savings_label">Savings (20%)</string>
 
-    <string name="education_title">Edukasi Finansial</string>
+    <string name="accessibility_settings">Accessibility Settings</string>
+    <string name="font_size_label">Dynamic Font Size</string>
+    <string name="high_contrast_label">High Contrast Mode</string>
+    <string name="tts_label">Text To Speech</string>
+    <string name="speech_rec_label">Speech Recognition</string>
+    <string name="vibration_label">Vibration Feedback</string>
 
-    <string name="accessibility_title">Aksesibilitas</string>
-    <string name="text_to_speech">Text To Speech</string>
-    <string name="voice_input">Input Suara</string>
-    <string name="high_contrast">Kontras Tinggi</string>
-    <string name="vibration_feedback">Umpan Balik Getaran</string>
-    <string name="label_security">Keamanan</string>
-    <string name="label_appearance">Tampilan</string>
-    <string name="label_data_backup">Data &amp; Backup</string>
-    <string name="label_export_excel">Export Data (Excel)</string>
+    <string name="export_csv">Export CSV</string>
+    <string name="export_pdf">Export PDF</string>
+    <string name="export_excel_xlsx">Export Excel (.xlsx)</string>
 
-    <string name="health_score_label">Health Score</string>
-    <string name="label_quick_edu">Edu</string>
-    <string name="label_quick_export">Export</string>
-    <string name="label_quick_income">Income</string>
-    <string name="label_quick_expense">Expense</string>
-    <string name="label_quick_goals">Goals</string>
-    <string name="shake_to_add">Shake to Add</string>
-    <string name="cd_health_score">Ikon Skor Kesehatan</string>
-    <string name="cd_insight">Ikon Insight Finansial</string>
+    <string name="scan_receipt_title">Scan Receipt</string>
+    <string name="capture_receipt">Capture Receipt</string>
+    <string name="attach_to_transaction">Attach to Transaction</string>
 
-    <!-- Missing strings restored -->
-    <string name="label_save_transaction">Simpan Transaksi</string>
-    <string name="label_scan_receipt">Scan Struk (AI)</string>
-    <string name="label_amount_rp">Jumlah (Rp)</string>
-    <string name="label_category">Kategori</string>
-    <string name="label_description">Keterangan</string>
-    <string name="label_select_date">Pilih Tanggal</string>
-    <string name="label_budget_limit">Anggaran &amp; Limit</string>
-    <string name="label_monthly_limit">Batas Bulanan</string>
-    <string name="label_not_set">Belum diatur</string>
-    <string name="label_income">Income</string>
-    <string name="label_expense">Expense</string>
-    <string name="label_balance">Balance</string>
-    <string name="greeting_format">Halo, %1$s!</string>
-    <string name="limit_format">Limit: %1$s</string>
-    <string name="msg_camera_permission_required">Izin kamera diperlukan untuk scan struk</string>
-    <string name="msg_analyzing_receipt">Menganalisis struk&#8230;</string>
-    <string name="msg_detect_amount_failed">Tidak dapat mendeteksi jumlah otomatis</string>
-    <string name="msg_process_image_failed">Gagal memproses gambar</string>
-
-    <!-- Accessibility descriptions -->
-    <string name="desc_back_button">Tombol Kembali</string>
-    <string name="desc_calendar_icon">Ikon Kalender</string>
-    <string name="desc_person_icon">Ikon Profil</string>
-    <string name="desc_wallet_icon">Ikon Dompet</string>
-    <string name="desc_edit_icon">Ikon Ubah</string>
-    <string name="desc_lock_icon">Ikon Kunci</string>
-    <string name="desc_chart_icon">Ikon Grafik</string>
-    <string name="desc_export_icon">Ikon Ekspor</string>
-    <string name="desc_delete_icon">Ikon Hapus</string>
-    <string name="desc_close_button">Tombol Tutup</string>
-    <string name="desc_transaction_icon">Ikon Transaksi</string>
-    <string name="transaction_history_title">Riwayat Transaksi</string>
-    <string name="label_default_amount">Rp 0</string>
+    <string name="reminder_bills">Reminder Tagihan</string>
+    <string name="reminder_goals">Target Tabungan</string>
+    <string name="reminder_overspending">Pengeluaran Berlebih</string>
+    <string name="reminder_daily_input">Pengingat Input Transaksi Harian</string>
 </resources>

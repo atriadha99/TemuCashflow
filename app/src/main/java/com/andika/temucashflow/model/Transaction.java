@@ -8,6 +8,7 @@ public class Transaction {
     private String description;
     private long date;
     private long userId;
+    private String imagePath;
 
     public Transaction() {}
 
@@ -19,6 +20,9 @@ public class Transaction {
         this.date = date;
         this.userId = userId;
     }
+
+    public String getImagePath() { return imagePath; }
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }

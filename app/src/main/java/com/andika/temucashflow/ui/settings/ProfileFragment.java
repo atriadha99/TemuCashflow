@@ -26,7 +26,9 @@ import com.andika.temucashflow.data.SharedPrefManager;
 import com.andika.temucashflow.databinding.FragmentProfileBinding;
 import com.andika.temucashflow.model.Transaction;
 import com.andika.temucashflow.ui.login.LoginActivity;
+import com.andika.temucashflow.utils.CurrencyFormatter;
 import com.andika.temucashflow.utils.DateUtils;
+import com.andika.temucashflow.utils.FinancialHealthCalculator;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -65,6 +67,22 @@ public class ProfileFragment extends Fragment {
                     uri -> {
                         if (uri != null) {
                             performExportExcel(uri);
+                        }
+                    });
+
+    private final ActivityResultLauncher<String> exportCsvLauncher =
+            registerForActivityResult(new ActivityResultContracts.CreateDocument("text/csv"),
+                    uri -> {
+                        if (uri != null) {
+                            performExportCsv(uri);
+                        }
+                    });
+
+    private final ActivityResultLauncher<String> exportPdfLauncher =
+            registerForActivityResult(new ActivityResultContracts.CreateDocument("application/pdf"),
+                    uri -> {
+                        if (uri != null) {
+                            performExportPdf(uri);
                         }
                     });
 
@@ -126,9 +144,23 @@ public class ProfileFragment extends Fragment {
 
         binding.layoutProfile.setOnClickListener(v -> showEditNameDialog());
         
+        binding.btnAccessibility.setOnClickListener(v -> {
+            startActivity(new Intent(requireContext(), AccessibilitySettingsActivity.class));
+        });
+        
         binding.btnExportExcel.setOnClickListener(v -> {
             String date = new SimpleDateFormat("yyyyMMdd_HHmm", Locale.getDefault()).format(new Date());
             exportExcelLauncher.launch("Laporan_TemuCashflow_" + date + ".xlsx");
+        });
+
+        binding.btnExportCsv.setOnClickListener(v -> {
+            String date = new SimpleDateFormat("yyyyMMdd_HHmm", Locale.getDefault()).format(new Date());
+            exportCsvLauncher.launch("Laporan_TemuCashflow_" + date + ".csv");
+        });
+
+        binding.btnExportPdf.setOnClickListener(v -> {
+            String date = new SimpleDateFormat("yyyyMMdd_HHmm", Locale.getDefault()).format(new Date());
+            exportPdfLauncher.launch("Laporan_TemuCashflow_" + date + ".pdf");
         });
 
         binding.btnExportJson.setOnClickListener(v -> {
@@ -146,20 +178,25 @@ public class ProfileFragment extends Fragment {
         
         double income = db.getTotalIncome(userId);
         double expense = db.getTotalExpense(userId);
-        int score = calculateBasicScore(income, expense);
-        binding.tvHealthScore.setText(String.valueOf(score));
+        double savings = income - expense;
+        
+        FinancialHealthCalculator.HealthResult health = FinancialHealthCalculator.calculate(income, expense, savings > 0 ? savings : 0);
+        binding.tvHealthScore.setText(String.valueOf(health.score));
+        binding.tvHealthScore.setTextColor(health.color);
+
+        binding.tvTotalIncome.setText(CurrencyFormatter.format(income));
+        binding.tvTotalExpense.setText(CurrencyFormatter.format(expense));
+        binding.tvCurrentSavings.setText(CurrencyFormatter.format(savings));
+
+        long creationDate = db.getUserCreationDate(userId);
+        if (creationDate > 0) {
+            String memberSinceDate = new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(new Date(creationDate));
+            binding.tvMemberSince.setText(getString(R.string.member_since, memberSinceDate));
+        }
         
         // Mock streak and badge for now
         binding.tvStreak.setText(getString(R.string.streak_format, 7));
         binding.tvBadge.setText(R.string.badge_pro);
-    }
-
-    private int calculateBasicScore(double income, double expense) {
-        if (income <= 0) return 0;
-        double ratio = (expense / income) * 100;
-        if (ratio <= 50) return 85;
-        if (ratio <= 80) return 65;
-        return 40;
     }
 
     private void showEditNameDialog() {
@@ -191,6 +228,67 @@ public class ProfileFragment extends Fragment {
                 })
                 .setNegativeButton(R.string.cancel_label, null)
                 .show();
+    }
+
+    private void performExportCsv(Uri uri) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try (OutputStream os = requireContext().getContentResolver().openOutputStream(uri)) {
+                StringBuilder csv = new StringBuilder("ID,Tipe,Jumlah,Kategori,Keterangan,Tanggal\n");
+                List<Transaction> transactions = db.getAllTransactions(userId);
+                for (Transaction t : transactions) {
+                    csv.append(t.getId()).append(",")
+                       .append(t.getType()).append(",")
+                       .append(t.getAmount()).append(",")
+                       .append("\"").append(t.getCategory()).append("\",")
+                       .append("\"").append(t.getDescription()).append("\",")
+                       .append(DateUtils.formatDate(t.getDate())).append("\n");
+                }
+                os.write(csv.toString().getBytes());
+                if (isAdded()) {
+                    requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "CSV berhasil disimpan", Toast.LENGTH_SHORT).show());
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error exporting CSV", e);
+            }
+        });
+    }
+
+    private void performExportPdf(Uri uri) {
+        // Implementation for PDF export using PdfDocument (simplified)
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try (OutputStream os = requireContext().getContentResolver().openOutputStream(uri)) {
+                android.graphics.pdf.PdfDocument document = new android.graphics.pdf.PdfDocument();
+                android.graphics.pdf.PdfDocument.PageInfo pageInfo = new android.graphics.pdf.PdfDocument.PageInfo.Builder(595, 842, 1).create();
+                android.graphics.pdf.PdfDocument.Page page = document.startPage(pageInfo);
+                
+                android.graphics.Canvas canvas = page.getCanvas();
+                android.graphics.Paint paint = new android.graphics.Paint();
+                paint.setTextSize(12);
+                
+                int y = 50;
+                canvas.drawText("Laporan Transaksi TemuCashflow", 50, y, paint);
+                y += 30;
+                
+                List<Transaction> transactions = db.getAllTransactions(userId);
+                for (Transaction t : transactions) {
+                    String line = String.format("%s | %s | %s | %s", 
+                        DateUtils.formatDate(t.getDate()), t.getType(), t.getCategory(), CurrencyFormatter.format(t.getAmount()));
+                    canvas.drawText(line, 50, y, paint);
+                    y += 20;
+                    if (y > 800) break; // Simplified: one page only
+                }
+                
+                document.finishPage(page);
+                document.writeTo(os);
+                document.close();
+                
+                if (isAdded()) {
+                    requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "PDF berhasil disimpan", Toast.LENGTH_SHORT).show());
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error exporting PDF", e);
+            }
+        });
     }
 
     private void performExportExcel(Uri uri) {

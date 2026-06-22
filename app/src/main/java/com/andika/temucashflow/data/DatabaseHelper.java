@@ -23,7 +23,7 @@ import java.util.TreeMap;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "TemuCashflow.db";
-    private static final int DATABASE_VERSION = 2; // Incremented version
+    private static final int DATABASE_VERSION = 4; // Incremented to 4
 
     private static final String TABLE_USERS = "users";
     private static final String TABLE_TRANSACTIONS = "transactions";
@@ -34,6 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_USER_NAME = "name";
     private static final String COL_USER_EMAIL = "email";
     private static final String COL_USER_PASSWORD = "password";
+    private static final String COL_USER_CREATED_AT = "created_at";
 
     // Transaction Columns
     private static final String COL_TRANS_ID = "id";
@@ -43,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_TRANS_DESCRIPTION = "description";
     private static final String COL_TRANS_DATE = "date";
     private static final String COL_TRANS_USER_ID = "user_id";
+    private static final String COL_TRANS_IMAGE = "image_path";
 
     // Goals Columns
     private static final String COL_GOAL_ID = "id";
@@ -70,7 +72,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COL_USER_NAME + " TEXT, " +
                 COL_USER_EMAIL + " TEXT UNIQUE, " +
-                COL_USER_PASSWORD + " TEXT)";
+                COL_USER_PASSWORD + " TEXT, " +
+                COL_USER_CREATED_AT + " INTEGER)";
 
         String createTransactions = "CREATE TABLE " + TABLE_TRANSACTIONS + " (" +
                 COL_TRANS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -79,7 +82,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_TRANS_CATEGORY + " TEXT, " +
                 COL_TRANS_DESCRIPTION + " TEXT, " +
                 COL_TRANS_DATE + " INTEGER, " +
-                COL_TRANS_USER_ID + " INTEGER)";
+                COL_TRANS_USER_ID + " INTEGER, " +
+                COL_TRANS_IMAGE + " TEXT)";
 
         String createGoals = "CREATE TABLE " + TABLE_GOALS + " (" +
                 COL_GOAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -104,6 +108,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COL_GOAL_USER_ID + " INTEGER)";
             db.execSQL(createGoals);
         }
+        if (oldVersion < 3) {
+            db.execSQL("ALTER TABLE " + TABLE_USERS + " ADD COLUMN " + COL_USER_CREATED_AT + " INTEGER DEFAULT " + System.currentTimeMillis());
+        }
+        if (oldVersion < 4) {
+            db.execSQL("ALTER TABLE " + TABLE_TRANSACTIONS + " ADD COLUMN " + COL_TRANS_IMAGE + " TEXT");
+        }
     }
 
     // ==================== USER ====================
@@ -114,6 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_USER_NAME, name);
         values.put(COL_USER_EMAIL, email);
         values.put(COL_USER_PASSWORD, password);
+        values.put(COL_USER_CREATED_AT, System.currentTimeMillis());
 
         long id = db.insert(TABLE_USERS, null, values);
         db.close();
@@ -182,6 +193,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_TRANS_DESCRIPTION, transaction.getDescription());
         values.put(COL_TRANS_DATE, transaction.getDate());
         values.put(COL_TRANS_USER_ID, transaction.getUserId());
+        values.put(COL_TRANS_IMAGE, transaction.getImagePath());
 
         long id = db.insert(TABLE_TRANSACTIONS, null, values);
         db.close();
@@ -196,6 +208,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_TRANS_CATEGORY, t.getCategory());
         values.put(COL_TRANS_DESCRIPTION, t.getDescription());
         values.put(COL_TRANS_DATE, t.getDate());
+        values.put(COL_TRANS_IMAGE, t.getImagePath());
 
         int rows = db.update(TABLE_TRANSACTIONS, values, COL_TRANS_ID + "=?",
                 new String[]{String.valueOf(t.getId())});
@@ -263,6 +276,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public long getUserCreationDate(long userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        long date = 0;
+        Cursor cursor = db.query(TABLE_USERS, new String[]{COL_USER_CREATED_AT},
+                COL_USER_ID + "=?", new String[]{String.valueOf(userId)}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            date = cursor.getLong(0);
+            cursor.close();
+        }
+        return date;
+    }
+
     public List<CategoryStat> getCategoryStats(long userId, String type) {
         List<CategoryStat> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -275,17 +300,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), type});
 
+        double grandTotal = 0;
+        List<CategoryStat> rawList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
                 String category = cursor.getString(cursor.getColumnIndexOrThrow(COL_TRANS_CATEGORY));
                 double total = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
                 int count = cursor.getInt(cursor.getColumnIndexOrThrow("count"));
-                list.add(new CategoryStat(category, total, count));
+                rawList.add(new CategoryStat(category, total, count));
+                grandTotal += total;
             } while (cursor.moveToNext());
         }
-
         cursor.close();
-        db.close();
+
+        // Merge < 5% into "Lainnya"
+        double othersTotal = 0;
+        int othersCount = 0;
+        for (CategoryStat stat : rawList) {
+            if (stat.getTotal() < grandTotal * 0.05) {
+                othersTotal += stat.getTotal();
+                othersCount += stat.getCount();
+            } else {
+                list.add(stat);
+            }
+        }
+        if (othersTotal > 0) {
+            list.add(new CategoryStat("Lainnya", othersTotal, othersCount));
+        }
+
         return list;
     }
 
@@ -393,10 +435,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public double getMonthlyExpense(long userId, long startTime) {
+        return getMonthlyTotalByType(userId, "expense", startTime);
+    }
+
+    public double getMonthlyIncome(long userId, long startTime) {
+        return getMonthlyTotalByType(userId, "income", startTime);
+    }
+
+    private double getMonthlyTotalByType(long userId, String type, long startTime) {
         SQLiteDatabase db = this.getReadableDatabase();
+        
+        // End of month
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(startTime);
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        long endTime = cal.getTimeInMillis();
+
         String query = "SELECT SUM(" + COL_TRANS_AMOUNT + ") FROM " + TABLE_TRANSACTIONS +
-                " WHERE " + COL_TRANS_TYPE + "='expense' AND " + COL_TRANS_USER_ID + "=? AND " + COL_TRANS_DATE + " >= ?";
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), String.valueOf(startTime)});
+                " WHERE " + COL_TRANS_TYPE + "=? AND " + COL_TRANS_USER_ID + "=? AND " + COL_TRANS_DATE + " BETWEEN ? AND ?";
+        Cursor cursor = db.rawQuery(query, new String[]{type, String.valueOf(userId), String.valueOf(startTime), String.valueOf(endTime)});
 
         double total = 0;
         if (cursor.moveToFirst()) {
@@ -515,6 +575,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         t.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(COL_TRANS_DESCRIPTION)));
         t.setDate(cursor.getLong(cursor.getColumnIndexOrThrow(COL_TRANS_DATE)));
         t.setUserId(cursor.getLong(cursor.getColumnIndexOrThrow(COL_TRANS_USER_ID)));
+        t.setImagePath(cursor.getString(cursor.getColumnIndexOrThrow(COL_TRANS_IMAGE)));
         return t;
     }
 }

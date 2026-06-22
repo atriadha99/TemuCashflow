@@ -14,6 +14,11 @@ public class SharedPrefManager {
     private static final String KEY_REMINDER_ENABLED = "reminder_enabled";
     private static final String KEY_MONTHLY_BUDGET = "monthly_budget";
     private static final String KEY_SHAKE_ENABLED = "shake_enabled";
+    private static final String KEY_FONT_SIZE = "font_size";
+    private static final String KEY_HIGH_CONTRAST = "high_contrast";
+    private static final String KEY_TTS = "tts_enabled";
+    private static final String KEY_SPEECH_RECOG = "speech_recog_enabled";
+    private static final String KEY_VIBRATION = "vibration_enabled";
 
     private static SharedPrefManager instance;
     private SharedPreferences sharedPreferences;
@@ -82,6 +87,46 @@ public class SharedPrefManager {
 
     public boolean isShakeEnabled() {
         return sharedPreferences.getBoolean(KEY_SHAKE_ENABLED, true); // Default true
+    }
+
+    public void setFontSize(int size) {
+        editor.putInt(KEY_FONT_SIZE, size).apply();
+    }
+
+    public int getFontSize() {
+        return sharedPreferences.getInt(KEY_FONT_SIZE, 1);
+    }
+
+    public void setHighContrastEnabled(boolean enabled) {
+        editor.putBoolean(KEY_HIGH_CONTRAST, enabled).apply();
+    }
+
+    public boolean isHighContrastEnabled() {
+        return sharedPreferences.getBoolean(KEY_HIGH_CONTRAST, false);
+    }
+
+    public void setTtsEnabled(boolean enabled) {
+        editor.putBoolean(KEY_TTS, enabled).apply();
+    }
+
+    public boolean isTtsEnabled() {
+        return sharedPreferences.getBoolean(KEY_TTS, false);
+    }
+
+    public void setSpeechRecognitionEnabled(boolean enabled) {
+        editor.putBoolean(KEY_SPEECH_RECOG, enabled).apply();
+    }
+
+    public boolean isSpeechRecognitionEnabled() {
+        return sharedPreferences.getBoolean(KEY_SPEECH_RECOG, false);
+    }
+
+    public void setVibrationEnabled(boolean enabled) {
+        editor.putBoolean(KEY_VIBRATION, enabled).apply();
+    }
+
+    public boolean isVibrationEnabled() {
+        return sharedPreferences.getBoolean(KEY_VIBRATION, true);
     }
 
     public boolean isLoggedIn() {

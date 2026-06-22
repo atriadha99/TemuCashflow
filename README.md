@@ -176,6 +176,30 @@ git clone https://github.com/username/temucashflow.git
 
 ---
 
+## Financial Health Score
+
+TemuCashflow menyediakan Financial Health Score yang membantu pengguna memahami kondisi keuangan mereka berdasarkan rasio pemasukan, pengeluaran, tabungan, dan pola transaksi. Sistem akan memberikan skor, status kesehatan keuangan, serta rekomendasi yang dapat membantu pengguna mengambil keputusan finansial yang lebih baik.
+
+---
+
+## Financial Insight
+
+Financial Insight merupakan fitur analisis otomatis yang menampilkan ringkasan kondisi keuangan pengguna, kategori pengeluaran terbesar, tingkat pengeluaran terhadap pemasukan, serta rekomendasi penghematan yang dihasilkan berdasarkan data transaksi yang tersimpan.
+
+---
+
+## Accessibility Support
+
+TemuCashflow mendukung berbagai fitur aksesibilitas seperti Dynamic Font Size, Text To Speech, Speech Recognition, High Contrast Mode, dan Vibration Feedback untuk meningkatkan kenyamanan penggunaan bagi seluruh pengguna. Fitur Voice Input memungkinkan pengguna mencatat transaksi hanya dengan suara, sementara Read Aloud membacakan insight dan kesehatan keuangan secara otomatis.
+
+---
+
+## Security Features
+
+Aplikasi dilengkapi dengan Biometric Authentication menggunakan Fingerprint dan Face Unlock yang didukung perangkat untuk meningkatkan keamanan akses terhadap data keuangan pengguna.
+
+---
+
 ## 👨‍💻 Developer
 **Andika Agung Triadha**  
 **NIM:** 231011400165  

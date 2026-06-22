@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,7 +29,10 @@ import com.andika.temucashflow.data.SharedPrefManager;
 import com.andika.temucashflow.databinding.ActivityAddTransactionBinding;
 import com.andika.temucashflow.model.Transaction;
 import com.andika.temucashflow.utils.DateUtils;
+import com.andika.temucashflow.utils.ImageUtils;
 import com.andika.temucashflow.utils.NotificationHelper;
+import com.andika.temucashflow.utils.VibrationUtils;
+import com.andika.temucashflow.utils.VoiceInputParser;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.TextRecognition;
@@ -48,6 +52,7 @@ public class AddTransactionActivity extends AppCompatActivity {
     private String currentType = "expense";
     private long selectedDate;
     private long editTransactionId = -1; // -1 berarti mode Tambah
+    private String currentImagePath = null;
 
     private final String[] incomeCategories = {"Gaji", "Investasi", "Freelance", "Hadiah", "Bonus", "Bank", "E-Wallet", "Tunai", "Lainnya"};
     private final String[] expenseCategories = {"Makanan", "Transport", "Belanja", "Hiburan", "Kesehatan", "Pendidikan", "Tagihan", "Bank", "E-Wallet", "Tunai", "Lainnya"};
@@ -89,6 +94,18 @@ public class AddTransactionActivity extends AppCompatActivity {
                     showScanOptions();
                 } else {
                     Toast.makeText(this, R.string.msg_camera_permission_required, Toast.LENGTH_SHORT).show();
+                }
+            }
+    );
+
+    private final ActivityResultLauncher<Intent> sttLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    java.util.ArrayList<String> matches = result.getData().getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    if (matches != null && !matches.isEmpty()) {
+                        processVoiceInput(matches.get(0));
+                    }
                 }
             }
     );
@@ -165,6 +182,7 @@ public class AddTransactionActivity extends AppCompatActivity {
             binding.tvDate.setText(DateUtils.formatDate(selectedDate));
             binding.etAmount.setText(String.valueOf((int) t.getAmount()));
             binding.etDescription.setText(t.getDescription());
+            currentImagePath = t.getImagePath();
             
             setType(t.getType());
             
@@ -224,7 +242,35 @@ public class AddTransactionActivity extends AppCompatActivity {
                 permissionLauncher.launch(new String[]{Manifest.permission.CAMERA});
             }
         });
+
+        binding.btnVoiceInput.setOnClickListener(v -> startVoiceInput());
+
         binding.toolbar.setNavigationOnClickListener(v -> finish());
+    }
+
+    private void startVoiceInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "id-ID");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Sebutkan transaksi (contoh: Pengeluaran makan sepuluh ribu)");
+        try {
+            sttLauncher.launch(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, "Speech recognition tidak didukung", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void processVoiceInput(String text) {
+        VoiceInputParser.VoiceTransaction vt = VoiceInputParser.parse(text);
+        
+        setType(vt.type);
+        if (vt.amount > 0) {
+            binding.etAmount.setText(String.valueOf((int) vt.amount));
+        }
+        binding.spinnerCategory.setText(vt.category, false);
+        binding.etDescription.setText(vt.description);
+        
+        Toast.makeText(this, "Voice input berhasil!", Toast.LENGTH_SHORT).show();
     }
 
     private void showScanOptions() {
@@ -242,6 +288,7 @@ public class AddTransactionActivity extends AppCompatActivity {
     }
 
     private void processReceiptImage(Bitmap bitmap) {
+        currentImagePath = ImageUtils.saveBitmap(this, bitmap);
         InputImage image = InputImage.fromBitmap(bitmap, 0);
         TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
@@ -373,16 +420,19 @@ public class AddTransactionActivity extends AppCompatActivity {
         long userId = pref.getUserId();
 
         Transaction t = new Transaction(currentType, amount, category, description, selectedDate, userId);
+        t.setImagePath(currentImagePath);
         
         if (editTransactionId != -1) {
             t.setId(editTransactionId);
             if (db.updateTransaction(t)) {
+                VibrationUtils.vibrate(this, 100);
                 checkBudgetWarning(userId, pref);
                 Toast.makeText(this, "Berhasil diperbarui", Toast.LENGTH_SHORT).show();
                 finish();
             }
         } else {
             if (db.insertTransaction(t) != -1) {
+                VibrationUtils.vibrate(this, 100);
                 checkBudgetWarning(userId, pref);
                 Toast.makeText(this, "Berhasil disimpan", Toast.LENGTH_SHORT).show();
                 finish();

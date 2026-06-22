@@ -2,6 +2,7 @@ package com.andika.temucashflow.ui.transaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +37,18 @@ public class TransactionListFragment extends Fragment {
     private String currentSort = "date";
     private String currentOrder = "desc";
     private String currentQuery = "";
+
+    private final ActivityResultLauncher<Intent> voiceSearchLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == android.app.Activity.RESULT_OK && result.getData() != null) {
+                    java.util.ArrayList<String> matches = result.getData().getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    if (matches != null && !matches.isEmpty()) {
+                        binding.searchView.setQuery(matches.get(0), true);
+                    }
+                }
+            }
+    );
 
     @Nullable
     @Override
@@ -73,6 +88,20 @@ public class TransactionListFragment extends Fragment {
                 return true;
             }
         });
+
+        binding.btnVoiceSearch.setOnClickListener(v -> startVoiceSearch());
+    }
+
+    private void startVoiceSearch() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "id-ID");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Sebutkan transaksi yang dicari");
+        try {
+            voiceSearchLauncher.launch(intent);
+        } catch (Exception e) {
+            android.widget.Toast.makeText(requireContext(), "Speech recognition tidak didukung", android.widget.Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setupFilterSpinner() {
@@ -131,10 +160,24 @@ public class TransactionListFragment extends Fragment {
 
             @Override
             public void onTransactionLongClick(Transaction transaction) {
-                showDeleteDialog(transaction);
+                showTransactionOptions(transaction);
             }
         });
         binding.rvTransactions.setAdapter(adapter);
+    }
+
+    private void showTransactionOptions(Transaction transaction) {
+        String[] options = {"Baca Detail", "Hapus Transaksi"};
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(transaction.getDescription())
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        adapter.readTransactionDetail(transaction);
+                    } else {
+                        showDeleteDialog(transaction);
+                    }
+                })
+                .show();
     }
 
     private void loadTransactions() {
@@ -164,6 +207,7 @@ public class TransactionListFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (adapter != null) adapter.shutdownTts();
         binding = null;
     }
 }

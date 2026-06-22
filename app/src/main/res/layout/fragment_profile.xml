@@ -84,6 +84,15 @@
                     android:textColor="@color/orange_warning"
                     android:textStyle="bold"
                     tools:text="🔥 7 Days Streak" />
+
+                <TextView
+                    android:id="@+id/tvMemberSince"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    tools:text="Member Since: Juni 2026" />
             </LinearLayout>
 
             <!-- Stats Overview -->
@@ -96,70 +105,106 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:baselineAligned="false">
+                    android:orientation="vertical"
+                    android:padding="16dp">
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/tvTotalTransactions"
-                            android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/primary"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            tools:text="128" />
-                        <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/tvTotalTransactions"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/primary"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                tools:text="128" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/transactions_label"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                        <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/background" />
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/transactions_label"
-                            android:textSize="12sp" />
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/tvHealthScore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/success"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                tools:text="82" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Score"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                        <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/background" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/badge_blue"
+                                android:contentDescription="Badge" />
+                            <TextView
+                                android:id="@+id/tvBadge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/primary"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                tools:text="Pro" />
+                        </LinearLayout>
                     </LinearLayout>
-                    <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/background" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/background" android:layout_marginVertical="16dp" />
+
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
                         android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/tvHealthScore"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/success"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            tools:text="82" />
-                        <TextView
-                            android:layout_width="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/total_income" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+                            <TextView android:id="@+id/tvTotalIncome" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/green_income" android:textStyle="bold" tools:text="Rp0"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Score"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                    <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/background" />
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/badge_blue"
-                            android:contentDescription="Badge" />
-                        <TextView
-                            android:id="@+id/tvBadge"
-                            android:layout_width="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="8dp">
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/total_expense" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+                            <TextView android:id="@+id/tvTotalExpense" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/red_expense" android:textStyle="bold" tools:text="Rp0"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/primary"
-                            android:textStyle="bold"
-                            android:textSize="12sp"
-                            tools:text="Pro" />
+                            android:orientation="horizontal"
+                            android:layout_marginTop="8dp">
+                            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/current_savings" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+                            <TextView android:id="@+id/tvCurrentSavings" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/blue_balance" android:textStyle="bold" tools:text="Rp0"/>
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -262,6 +307,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/background" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAccessibility"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Accessibility Settings"
+                        android:textAlignment="viewStart"
+                        app:icon="@drawable/ic_settings" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -291,6 +347,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/label_export_excel"
+                        android:textAlignment="viewStart"
+                        app:icon="@drawable/ic_export" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnExportCsv"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Export CSV"
+                        android:textAlignment="viewStart"
+                        app:icon="@drawable/ic_export" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnExportPdf"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Export PDF"
                         android:textAlignment="viewStart"
                         app:icon="@drawable/ic_export" />
 

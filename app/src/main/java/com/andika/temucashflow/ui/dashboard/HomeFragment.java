@@ -19,8 +19,12 @@ import com.andika.temucashflow.data.SharedPrefManager;
 import com.andika.temucashflow.databinding.FragmentHomeBinding;
 import com.andika.temucashflow.model.Transaction;
 import com.andika.temucashflow.ui.transaction.AddTransactionActivity;
+import com.andika.temucashflow.model.CategoryStat;
 import com.andika.temucashflow.utils.CurrencyFormatter;
 import com.andika.temucashflow.utils.DateUtils;
+import com.andika.temucashflow.utils.FinancialHealthCalculator;
+import com.andika.temucashflow.utils.InsightGenerator;
+import com.andika.temucashflow.utils.TtsHelper;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -31,6 +35,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private DatabaseHelper db;
     private TransactionAdapter adapter;
+    private TtsHelper tts;
     private long userId;
 
     @Nullable
@@ -46,6 +51,7 @@ public class HomeFragment extends Fragment {
 
         db = DatabaseHelper.getInstance(requireContext());
         userId = SharedPrefManager.getInstance(requireContext()).getUserId();
+        tts = new TtsHelper(requireContext());
 
         initViews();
         setupRecyclerView();
@@ -72,10 +78,24 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onTransactionLongClick(Transaction transaction) {
-                showDeleteDialog(transaction);
+                showTransactionOptions(transaction);
             }
         });
         binding.rvTransactions.setAdapter(adapter);
+    }
+
+    private void showTransactionOptions(Transaction transaction) {
+        String[] options = {"Baca Detail", "Hapus Transaksi"};
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(transaction.getDescription())
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        adapter.readTransactionDetail(transaction);
+                    } else {
+                        showDeleteDialog(transaction);
+                    }
+                })
+                .show();
     }
 
     private void setupListeners() {
@@ -112,6 +132,11 @@ public class HomeFragment extends Fragment {
             Intent intent = new Intent(requireActivity(), com.andika.temucashflow.ui.education.EducationActivity.class);
             startActivity(intent);
         });
+
+        binding.btnSpeakInsight.setOnClickListener(v -> {
+            String text = binding.tvInsight.getText().toString();
+            tts.speak(text);
+        });
     }
 
     private void loadData() {
@@ -123,9 +148,15 @@ public class HomeFragment extends Fragment {
         binding.tvTotalExpense.setText(CurrencyFormatter.format(totalExpense));
         binding.tvBalance.setText(CurrencyFormatter.format(balance));
 
-        // Simplified Health Score for Home
-        int score = calculateBasicScore(totalIncome, totalExpense);
-        binding.tvHealthScoreSmall.setText(String.valueOf(score));
+        // Advanced Health Score
+        FinancialHealthCalculator.HealthResult health = FinancialHealthCalculator.calculate(totalIncome, totalExpense, balance > 0 ? balance : 0);
+        binding.tvHealthScoreSmall.setText(String.valueOf(health.score));
+        binding.tvHealthScoreSmall.setTextColor(health.color);
+        
+        binding.tvHealthScore.setText(health.score + " / 100");
+        binding.tvHealthStatus.setText(health.status);
+        binding.tvHealthStatus.setTextColor(health.color);
+        binding.tvHealthRecommendation.setText(health.recommendation);
 
         List<Transaction> allTransactions = db.getAllTransactions(userId);
         if (!allTransactions.isEmpty()) {
@@ -134,25 +165,11 @@ public class HomeFragment extends Fragment {
             adapter.setTransactions(new ArrayList<>());
         }
         
-        generateInsight(allTransactions, totalIncome, totalExpense);
+        List<CategoryStat> stats = db.getCategoryStats(userId, "expense");
+        String insight = InsightGenerator.generateDailyInsight(totalIncome, totalExpense, stats);
+        binding.tvInsight.setText(insight);
     }
     
-    private int calculateBasicScore(double income, double expense) {
-        if (income <= 0) return 0;
-        double ratio = (expense / income) * 100;
-        if (ratio <= 50) return 85;
-        if (ratio <= 80) return 65;
-        return 40;
-    }
-
-    private void generateInsight(List<Transaction> transactions, double income, double expense) {
-        if (income > 0 && expense > income * 0.8) {
-            binding.tvInsight.setText("Pengeluaran Anda mencapai " + (int)((expense/income)*100) + "% dari pemasukan.");
-        } else {
-            binding.tvInsight.setText(R.string.advice_ideal);
-        }
-    }
-
     private void showDeleteDialog(Transaction transaction) {
         new MaterialAlertDialogBuilder(requireContext())
             .setTitle("Hapus Transaksi")
@@ -174,6 +191,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (tts != null) tts.shutdown();
+        if (adapter != null) adapter.shutdownTts();
         binding = null;
     }
 }
