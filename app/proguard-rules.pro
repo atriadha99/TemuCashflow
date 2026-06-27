@@ -20,11 +20,20 @@
 -keep class com.github.mikephil.charting.** { *; }
 -dontwarn com.github.mikephil.charting.**
 
-# Apache POI
+# Apache POI & Dependencies
 -keep class org.apache.poi.** { *; }
 -dontwarn org.apache.poi.**
 -keep class org.apache.xmlbeans.** { *; }
 -dontwarn org.apache.xmlbeans.**
+-dontwarn org.apache.logging.log4j.**
+-dontwarn org.apache.commons.compress.**
+-dontwarn aQute.bnd.annotation.**
+-dontwarn com.github.luben.zstd.**
+-dontwarn edu.umd.cs.findbugs.annotations.**
+-dontwarn java.awt.**
+-dontwarn org.osgi.framework.**
+-dontwarn org.tukaani.xz.**
+-dontwarn com.graphbuilder.curve.**
 
 # Gson
 -keepattributes Signature
