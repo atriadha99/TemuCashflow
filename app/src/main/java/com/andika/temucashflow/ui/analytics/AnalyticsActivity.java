@@ -24,6 +24,7 @@ import com.andika.temucashflow.data.SharedPrefManager;
 import com.andika.temucashflow.databinding.ActivityAnalyticsBinding;
 import com.andika.temucashflow.model.CategoryStat;
 import com.andika.temucashflow.model.SavingsGoal;
+import com.andika.temucashflow.ui.BaseActivity;
 import com.andika.temucashflow.ui.dashboard.DashboardActivity;
 import com.andika.temucashflow.ui.settings.SettingsActivity;
 import com.andika.temucashflow.ui.transaction.TransactionListActivity;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class AnalyticsActivity extends AppCompatActivity {
+public class AnalyticsActivity extends BaseActivity {
 
     private ActivityAnalyticsBinding binding;
     private DatabaseHelper db;

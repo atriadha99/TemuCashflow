@@ -21,6 +21,7 @@ import com.andika.temucashflow.data.DatabaseHelper;
 import com.andika.temucashflow.data.SharedPrefManager;
 import com.andika.temucashflow.databinding.ActivityTransactionListBinding;
 import com.andika.temucashflow.model.Transaction;
+import com.andika.temucashflow.ui.BaseActivity;
 import com.andika.temucashflow.ui.analytics.AnalyticsActivity;
 import com.andika.temucashflow.ui.dashboard.DashboardActivity;
 import com.andika.temucashflow.ui.settings.SettingsActivity;
@@ -28,7 +29,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
-public class TransactionListActivity extends AppCompatActivity {
+public class TransactionListActivity extends BaseActivity {
 
     private ActivityTransactionListBinding binding;
     private DatabaseHelper db;

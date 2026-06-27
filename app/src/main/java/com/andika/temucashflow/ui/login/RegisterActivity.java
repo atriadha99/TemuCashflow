@@ -10,10 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.andika.temucashflow.data.DatabaseHelper;
 import com.andika.temucashflow.data.SharedPrefManager;
 import com.andika.temucashflow.databinding.ActivityRegisterBinding;
+import com.andika.temucashflow.ui.BaseActivity;
 import com.andika.temucashflow.ui.dashboard.DashboardActivity;
 import com.google.android.material.snackbar.Snackbar;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     private ActivityRegisterBinding binding;
     private DatabaseHelper db;

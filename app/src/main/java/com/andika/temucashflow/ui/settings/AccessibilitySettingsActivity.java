@@ -3,12 +3,11 @@ package com.andika.temucashflow.ui.settings;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.andika.temucashflow.data.SharedPrefManager;
 import com.andika.temucashflow.databinding.ActivityAccessibilitySettingsBinding;
+import com.andika.temucashflow.ui.BaseActivity;
 
-public class AccessibilitySettingsActivity extends AppCompatActivity {
+public class AccessibilitySettingsActivity extends BaseActivity {
 
     private ActivityAccessibilitySettingsBinding binding;
     private SharedPrefManager pref;

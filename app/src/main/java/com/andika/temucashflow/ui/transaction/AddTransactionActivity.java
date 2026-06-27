@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -28,6 +27,7 @@ import com.andika.temucashflow.data.DatabaseHelper;
 import com.andika.temucashflow.data.SharedPrefManager;
 import com.andika.temucashflow.databinding.ActivityAddTransactionBinding;
 import com.andika.temucashflow.model.Transaction;
+import com.andika.temucashflow.ui.BaseActivity;
 import com.andika.temucashflow.utils.DateUtils;
 import com.andika.temucashflow.utils.ImageUtils;
 import com.andika.temucashflow.utils.NotificationHelper;
@@ -44,7 +44,7 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AddTransactionActivity extends AppCompatActivity {
+public class AddTransactionActivity extends BaseActivity {
 
     private static final String TAG = "AddTransactionActivity";
     private ActivityAddTransactionBinding binding;

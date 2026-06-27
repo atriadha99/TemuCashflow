@@ -9,7 +9,7 @@ public class SharedPrefManager {
     private static final String KEY_USER_NAME = "user_name";
     private static final String KEY_USER_EMAIL = "user_email";
     private static final String KEY_IS_LOGGED_IN = "is_logged_in";
-    private static final String KEY_DARK_MODE = "dark_mode";
+    private static final String KEY_THEME_MODE = "theme_mode"; // 0: System, 1: Light, 2: Dark
     private static final String KEY_BIOMETRIC_ENABLED = "biometric_enabled";
     private static final String KEY_REMINDER_ENABLED = "reminder_enabled";
     private static final String KEY_MONTHLY_BUDGET = "monthly_budget";
@@ -44,13 +44,19 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    public void setDarkMode(boolean isEnabled) {
-        editor.putBoolean(KEY_DARK_MODE, isEnabled);
+    public void setThemeMode(int mode) {
+        editor.putInt(KEY_THEME_MODE, mode);
         editor.apply();
     }
 
+    public int getThemeMode() {
+        return sharedPreferences.getInt(KEY_THEME_MODE, 0); // Default System
+    }
+
     public boolean isDarkMode() {
-        return sharedPreferences.getBoolean(KEY_DARK_MODE, false);
+        // Keeping for backward compatibility or simple checks if needed, 
+        // but setThemeMode is preferred now.
+        return getThemeMode() == 2;
     }
 
     public void setBiometricEnabled(boolean isEnabled) {

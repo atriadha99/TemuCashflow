@@ -81,12 +81,14 @@ public class IslandNotificationManager {
     }
 
     public void showIncome(double amount, Transaction recentTransaction) {
-        show(activity.getString(R.string.label_income), "+ " + CurrencyFormatter.format(amount), 
+        String amountText = "+ " + CurrencyFormatter.format(amount);
+        show(activity.getString(R.string.label_income), amountText, 
               R.color.green_income, R.drawable.ic_arrow_down, recentTransaction, false);
     }
 
     public void showExpense(double amount, Transaction recentTransaction) {
-        show(activity.getString(R.string.label_expense), "- " + CurrencyFormatter.format(amount), 
+        String amountText = "- " + CurrencyFormatter.format(amount);
+        show(activity.getString(R.string.label_expense), amountText,
               R.color.red_expense, R.drawable.ic_arrow_up, recentTransaction, false);
     }
 

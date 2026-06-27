@@ -16,6 +16,27 @@
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# MPAndroidChart
+-keep class com.github.mikephil.charting.** { *; }
+-dontwarn com.github.mikephil.charting.**
+
+# Apache POI
+-keep class org.apache.poi.** { *; }
+-dontwarn org.apache.poi.**
+-keep class org.apache.xmlbeans.** { *; }
+-dontwarn org.apache.xmlbeans.**
+
+# Gson
+-keepattributes Signature
+-keepattributes *Annotation*
+-dontwarn sun.misc.**
+-keep class com.google.gson.** { *; }
+-keep class com.andika.temucashflow.model.** { *; }
+
+# Firebase
+-keep class com.google.firebase.** { *; }
+-dontwarn com.google.firebase.**
+
+# Jackson
+-keep class com.fasterxml.jackson.** { *; }
+-dontwarn com.fasterxml.jackson.**

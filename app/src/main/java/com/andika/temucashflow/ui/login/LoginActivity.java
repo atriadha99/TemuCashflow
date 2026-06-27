@@ -10,9 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.andika.temucashflow.data.DatabaseHelper;
 import com.andika.temucashflow.data.SharedPrefManager;
 import com.andika.temucashflow.databinding.ActivityLoginBinding;
+import com.andika.temucashflow.ui.BaseActivity;
 import com.andika.temucashflow.ui.dashboard.DashboardActivity;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private ActivityLoginBinding binding;
     private DatabaseHelper db;

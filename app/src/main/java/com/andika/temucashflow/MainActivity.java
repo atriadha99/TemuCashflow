@@ -14,7 +14,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
@@ -24,13 +23,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.andika.temucashflow.data.SharedPrefManager;
+import com.andika.temucashflow.ui.BaseActivity;
 import com.andika.temucashflow.ui.dashboard.DashboardActivity;
 import com.andika.temucashflow.ui.login.LoginActivity;
 import com.andika.temucashflow.utils.NotificationHelper;
 
 import java.util.concurrent.Executor;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private SharedPrefManager pref;
 
@@ -44,13 +44,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         pref = SharedPrefManager.getInstance(this);
-
-        // 1. Terapkan Tema (Dark/Light) sebelum super.onCreate
-        if (pref.isDarkMode()) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
 
         super.onCreate(savedInstanceState);
         

@@ -15,6 +15,9 @@
         <item name="android:windowBackground">@color/background</item>
         <item name="colorSurface">@color/surface</item>
         <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/light_background</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <item name="colorOutline">@color/text_muted</item>
 
         <!-- Edge to Edge -->
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -25,7 +28,7 @@
         <item name="android:fitsSystemWindows">false</item>
 
         <!-- Use light/dark status bar automatically based on theme -->
-        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <attr name="isLightTheme" format="boolean" />

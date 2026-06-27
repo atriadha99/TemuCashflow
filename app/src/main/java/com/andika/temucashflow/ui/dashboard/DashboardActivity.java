@@ -20,12 +20,13 @@ import androidx.fragment.app.FragmentTransaction;
 import com.andika.temucashflow.R;
 import com.andika.temucashflow.data.SharedPrefManager;
 import com.andika.temucashflow.databinding.ActivityDashboardBinding;
+import com.andika.temucashflow.ui.BaseActivity;
 import com.andika.temucashflow.ui.analytics.StatisticsFragment;
 import com.andika.temucashflow.ui.settings.ProfileFragment;
 import com.andika.temucashflow.ui.transaction.AddTransactionActivity;
 import com.andika.temucashflow.ui.transaction.TransactionListFragment;
 
-public class DashboardActivity extends AppCompatActivity implements SensorEventListener {
+public class DashboardActivity extends BaseActivity implements SensorEventListener {
 
     private ActivityDashboardBinding binding;
     private SensorManager sensorManager;

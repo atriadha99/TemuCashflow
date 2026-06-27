@@ -6,11 +6,10 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.andika.temucashflow.databinding.ActivityEducationBinding;
+import com.andika.temucashflow.ui.BaseActivity;
 
-public class EducationActivity extends AppCompatActivity {
+public class EducationActivity extends BaseActivity {
 
     private ActivityEducationBinding binding;
 

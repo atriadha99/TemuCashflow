@@ -26,6 +26,7 @@ import com.andika.temucashflow.data.DatabaseHelper;
 import com.andika.temucashflow.data.SharedPrefManager;
 import com.andika.temucashflow.databinding.ActivitySettingsBinding;
 import com.andika.temucashflow.model.Transaction;
+import com.andika.temucashflow.ui.BaseActivity;
 import com.andika.temucashflow.ui.analytics.AnalyticsActivity;
 import com.andika.temucashflow.ui.dashboard.DashboardActivity;
 import com.andika.temucashflow.ui.login.LoginActivity;
@@ -49,7 +50,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
     private static final String TAG = "SettingsActivity";
     private ActivitySettingsBinding binding;
@@ -147,7 +148,10 @@ public class SettingsActivity extends AppCompatActivity {
     private void initViews() {
         binding.tvUserName.setText(pref.getUserName());
         binding.tvUserEmail.setText(pref.getUserEmail());
-        binding.switchDarkMode.setChecked(pref.isDarkMode());
+        
+        int mode = pref.getThemeMode();
+        binding.switchDarkMode.setChecked(mode == 2);
+
         binding.switchBiometric.setChecked(pref.isBiometricEnabled());
         updateBudgetStatus();
     }
@@ -187,7 +191,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setupListeners() {
         binding.switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            pref.setDarkMode(isChecked);
+            int mode = isChecked ? 2 : 1;
+            pref.setThemeMode(mode);
             AppCompatDelegate.setDefaultNightMode(isChecked ? 
                     AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         });

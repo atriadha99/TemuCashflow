@@ -106,14 +106,18 @@ public class ProfileFragment extends Fragment {
     private void initViews() {
         binding.tvUserName.setText(pref.getUserName());
         binding.tvUserEmail.setText(pref.getUserEmail());
-        binding.switchDarkMode.setChecked(pref.isDarkMode());
+        
+        int mode = pref.getThemeMode();
+        binding.switchDarkMode.setChecked(mode == 2);
+
         binding.switchBiometric.setChecked(pref.isBiometricEnabled());
         binding.switchShake.setChecked(pref.isShakeEnabled());
     }
 
     private void setupListeners() {
         binding.switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            pref.setDarkMode(isChecked);
+            int mode = isChecked ? 2 : 1;
+            pref.setThemeMode(mode);
             AppCompatDelegate.setDefaultNightMode(isChecked ?
                     AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         });
